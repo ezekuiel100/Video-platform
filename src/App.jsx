@@ -13,6 +13,12 @@ function App() {
 
   function sendVideo() {
     const file = ref.current.files[0];
+
+    if (!file) {
+      console.log("Nenhum arquivo selecionado");
+      return;
+    }
+
     const fileName = file.name;
 
     const reader = new FileReader();

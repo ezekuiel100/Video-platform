@@ -13,16 +13,18 @@ app.post("/upload", (req, res) => {
 
   const filePath = `./videos/${fileName}`;
 
-  fs.writeFile(filePath, file, (err) => {
+  const fileBuffer = Buffer.from(file, "base64");
+
+  fs.writeFile(filePath, fileBuffer, (err) => {
     if (err) {
       console.error(err);
       return res.status(500).json({ error: "Erro ao salvar vídeo" });
     }
 
-    res.status(400).json({ message: "Vídeo salvo com sucesso.", filePath });
+    res.status(201).json({ message: "Vídeo salvo com sucesso.", filePath });
   });
 });
 
-app.get("/", () => {});
+app.get({});
 
 app.listen("3000", () => console.log("Server is running on port 3000"));
