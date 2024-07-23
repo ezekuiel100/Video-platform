@@ -1,12 +1,12 @@
 import express from "express";
 const app = express();
-import fs from "fs";
 
+import fs from "fs";
 import cors from "cors";
 
 app.use(cors({ origin: "http://localhost:5173" }));
-
 app.use(express.json({ limit: "100mb" }));
+app.use("/videos", express.static("./videos"));
 
 app.post("/upload", (req, res) => {
   const { file, fileName } = req.body;
@@ -25,6 +25,20 @@ app.post("/upload", (req, res) => {
   });
 });
 
-app.get({});
+app.get("/", (req, res) => {
+  fs.readdir("./videos", (err, files) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).json({ error: "Erro ao listar videos" });
+    }
+
+    const videoUrl = files.map((fileName) => ({
+      fileName,
+      url: `http://localhost:3000/videos/${fileName}`,
+    }));
+
+    res.json(videoUrl);
+  });
+});
 
 app.listen("3000", () => console.log("Server is running on port 3000"));
