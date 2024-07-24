@@ -63,6 +63,7 @@ function App() {
         body: JSON.stringify({
           file: base64File,
           fileName: fileName,
+          authorId: 1,
         }),
       })
         .then((res) => res.json())

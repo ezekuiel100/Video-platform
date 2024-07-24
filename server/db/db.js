@@ -22,7 +22,7 @@ async function createUser(req, res) {
 }
 
 async function createVideo(req, res) {
-  const { title, content, authorId, url, file, fileName } = req.body;
+  const { authorId, file, fileName } = req.body;
 
   const filePath = `./videos/${fileName}`;
 
@@ -35,12 +35,12 @@ async function createVideo(req, res) {
     }
   });
 
-  const newVideo = prisma.video.create({
+  const newVideo = await prisma.video.create({
     data: {
-      title,
-      content,
+      title: "teste",
+      content: "",
       authorId,
-      url,
+      url: "http://localhost:3000/" + filePath,
     },
   });
 
