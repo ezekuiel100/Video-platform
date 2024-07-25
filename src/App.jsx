@@ -57,6 +57,8 @@ function App() {
     reader.onloadend = () => {
       const base64File = reader.result.split(",")[1];
 
+      setProgress(0);
+
       axios
         .post(
           "http://localhost:3000/upload",
@@ -68,15 +70,17 @@ function App() {
           {
             onUploadProgress: (progressEvent) => {
               const { loaded, total } = progressEvent;
-              const num = (loaded / total) * 100;
-              console.log(num);
-              setProgress(num);
+              const porcentageCompleted = (loaded / total) * 100;
+              console.log(porcentageCompleted);
+              setProgress(porcentageCompleted);
             },
           }
         )
-        .then((data) => console.log("Sucesso:", data))
-        .catch((error) => console.log("Erro:", error))
-        .finally(() => setProgress(0));
+        .then((data) => {
+          console.log("Sucesso:", data);
+          setProgress(100);
+        })
+        .catch((error) => console.log("Erro:", error));
     };
 
     reader.readAsDataURL(file);
@@ -91,29 +95,6 @@ function App() {
 
   return (
     <>
-      <div className="p-4">
-        <h1 className="text-xl">Create user</h1>
-        <form
-          action=""
-          onSubmit={handleSubmit}
-          className="flex flex-col gap-2 "
-        >
-          <input
-            type="text"
-            className="bg-gray-200 w-44"
-            placeholder="Nome"
-            onChange={(e) => setName(e.target.value)}
-          />
-          <input
-            type="email"
-            className="bg-gray-200 w-44"
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Email"
-          />
-          <input type="submit" className="bg-blue-300 w-28" value={"Criar"} />
-        </form>
-      </div>
-
       <div className="p-4">
         <h1 className="text-xl mb-2">Send Video</h1>
         <input type="file" accept="video/mp4" ref={ref} onChange={handleFile} />
@@ -130,13 +111,18 @@ function App() {
           </button>
         </div>
 
-        <progress id="progressBar" max="100" value={progress}></progress>
+        <progress
+          id="progressBar"
+          max="100"
+          value={progress}
+          className="w-60 bg-red-400 rounded-full"
+        ></progress>
       </div>
 
       <div className="space-y-6 p-4">
         {videos?.map((video, i) => (
           <div key={i}>
-            <video src={video.url} controls className="h-56 w-72" />
+            <video src={video.url} controls className="h-56 w-72 " />
           </div>
         ))}
       </div>
