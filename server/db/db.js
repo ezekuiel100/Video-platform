@@ -47,14 +47,4 @@ async function createVideo(req, res) {
   res.send(newVideo);
 }
 
-// main()
-//   .then(async () => {
-//     await prisma.$disconnect();
-//   })
-//   .catch(async (e) => {
-//     console.error(e);
-//     await prisma.$disconnect();
-//     process.exit(1);
-//   });
-
 export { getVideos, createUser, createVideo };

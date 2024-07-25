@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { useRef } from "react";
+import axios from "axios";
 
 function App() {
   const [videoFile, setvideoFile] = useState(null);
   const [videos, setVideos] = useState(null);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [progress, setProgress] = useState(0);
 
   const ref = useRef();
 
@@ -55,20 +57,26 @@ function App() {
     reader.onloadend = () => {
       const base64File = reader.result.split(",")[1];
 
-      fetch("http://localhost:3000/upload", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          file: base64File,
-          fileName: fileName,
-          authorId: 1,
-        }),
-      })
-        .then((res) => res.json())
+      axios
+        .post(
+          "http://localhost:3000/upload",
+          {
+            file: base64File,
+            fileName: fileName,
+            authorId: 1,
+          },
+          {
+            onUploadProgress: (progressEvent) => {
+              const { loaded, total } = progressEvent;
+              const num = (loaded / total) * 100;
+              console.log(num);
+              setProgress(num);
+            },
+          }
+        )
         .then((data) => console.log("Sucesso:", data))
-        .catch((error) => console.log("Erro:", error));
+        .catch((error) => console.log("Erro:", error))
+        .finally(() => setProgress(0));
     };
 
     reader.readAsDataURL(file);
@@ -121,6 +129,8 @@ function App() {
             Enviar video
           </button>
         </div>
+
+        <progress id="progressBar" max="100" value={progress}></progress>
       </div>
 
       <div className="space-y-6 p-4">

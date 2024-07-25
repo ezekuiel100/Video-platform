@@ -5,7 +5,7 @@ import cors from "cors";
 import { createUser, createVideo, getVideos } from "./db/db.js";
 
 app.use(cors({ origin: "http://localhost:5173" }));
-app.use(express.json({ limit: "100mb" }));
+app.use(express.json({ limit: "1000mb" }));
 app.use("/videos", express.static("./videos"));
 
 app.post("/register", createUser);
