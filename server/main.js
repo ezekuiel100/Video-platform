@@ -11,6 +11,7 @@ app.use("/videos", express.static("./videos"));
 app.post("/register", createUser);
 
 app.post("/upload", createVideo);
+
 app.get("/", getVideos);
 
 app.listen("3000", () => console.log("Server is running on port 3000"));

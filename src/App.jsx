@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useRef } from "react";
 import axios from "axios";
+import Nav from "./components/Nav";
+import VideoGrid from "./components/VideoGrid";
 
 function App() {
   const [videoFile, setvideoFile] = useState(null);
@@ -71,7 +73,6 @@ function App() {
             onUploadProgress: (progressEvent) => {
               const { loaded, total } = progressEvent;
               const porcentageCompleted = (loaded / total) * 100;
-              console.log(porcentageCompleted);
               setProgress(porcentageCompleted);
             },
           }
@@ -95,37 +96,8 @@ function App() {
 
   return (
     <>
-      <div className="p-4">
-        <h1 className="text-xl mb-2">Send Video</h1>
-        <input type="file" accept="video/mp4" ref={ref} onChange={handleFile} />
-
-        <video
-          src={videoFile}
-          controls
-          className={`${videoFile ? "h-96" : "hidden"} `}
-        />
-
-        <div className="mt-4">
-          <button onClick={sendVideo} className="bg-blue-300 p-2 m-2">
-            Enviar video
-          </button>
-        </div>
-
-        <progress
-          id="progressBar"
-          max="100"
-          value={progress}
-          className="w-60 bg-red-400 rounded-full"
-        ></progress>
-      </div>
-
-      <div className="space-y-6 p-4">
-        {videos?.map((video, i) => (
-          <div key={i}>
-            <video src={video.url} controls className="h-56 w-72 " />
-          </div>
-        ))}
-      </div>
+      <Nav />
+      <VideoGrid videos={videos} />
     </>
   );
 }

@@ -40,7 +40,7 @@ async function createVideo(req, res) {
       title: "teste",
       content: "",
       authorId,
-      url: "http://localhost:3000/" + filePath,
+      url: "http://localhost:3000/videos/" + fileName,
     },
   });
 
