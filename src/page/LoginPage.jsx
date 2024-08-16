@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 function LoginPage() {
   return (
     <div className=" h-screen flex justify-center items-center">
@@ -9,6 +11,7 @@ function LoginPage() {
             type="email"
             name=""
             id=""
+            placeholder="Email"
             className="border border-gray-200 rounded-lg outline-none p-3 text-sm focus:drop-shadow-md"
           />
 
@@ -16,6 +19,7 @@ function LoginPage() {
             type="password"
             name=""
             id=""
+            placeholder="Senha"
             className="border border-gray-200 rounded-lg outline-none p-3 text-sm focus:drop-shadow-md"
           />
         </div>
@@ -27,9 +31,9 @@ function LoginPage() {
           </button>
           <p className="text-center">
             New user?{" "}
-            <a href="#" className="font-semibold">
+            <Link to={"/register"} className="font-semibold">
               Register
-            </a>
+            </Link>
           </p>
         </div>
       </div>

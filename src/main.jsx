@@ -10,7 +10,8 @@ import {
   BrowserRouter,
   Routes,
 } from "react-router-dom";
-import LoginPage from "./LoginPage.jsx";
+import LoginPage from "./page/LoginPage.jsx";
+import RegisterPage from "./page/RegisterPage.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -18,6 +19,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <Routes>
         <Route path="/" element={<App />}></Route>
         <Route path="/login" element={<LoginPage />}></Route>
+        <Route path="/register" element={<RegisterPage />}></Route>
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
