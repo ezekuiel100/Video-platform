@@ -19,6 +19,7 @@ function LoginPage() {
     }).then((res) => {
       if (res.ok) {
         navigate("/");
+        console.log(res);
       }
     });
   }

@@ -1,8 +1,12 @@
 import { PrismaClient } from "@prisma/client";
+import dotenv from "dotenv";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 import fs from "fs";
 
+dotenv.config();
 const prisma = new PrismaClient();
+const SECRET_KEY = process.env.JWT_SECRET_KEY;
 
 async function getVideos(req, res) {
   const videos = await prisma.video.findMany();
@@ -51,8 +55,12 @@ async function login(req, res) {
   const hash = user.password;
   const match = await bcrypt.compareSync(password, hash);
 
+  const token = jwt.sign({ userId: user.id, email }, SECRET_KEY, {
+    expiresIn: "1h",
+  });
+
   if (match) {
-    res.status(200).send();
+    res.status(200).send({ token });
   }
 }
 
