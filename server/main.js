@@ -2,7 +2,7 @@ import express from "express";
 const app = express();
 
 import cors from "cors";
-import { createUser, createVideo, getVideos } from "./db/db.js";
+import { createUser, createVideo, getVideos, login } from "./db/db.js";
 
 app.use(cors({ origin: "http://localhost:5173" }));
 app.use(express.json());
@@ -10,6 +10,8 @@ app.use(express.json({ limit: "1000mb" }));
 app.use("/videos", express.static("./videos"));
 
 app.post("/register", createUser);
+
+app.post("/login", login);
 
 app.post("/upload", createVideo);
 

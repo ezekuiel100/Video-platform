@@ -41,6 +41,21 @@ async function createUser(req, res) {
   }
 }
 
+async function login(req, res) {
+  const { email, password } = req.body;
+
+  const user = await prisma.user.findUnique({
+    where: { email },
+  });
+
+  const hash = user.password;
+  const match = await bcrypt.compareSync(password, hash);
+
+  if (match) {
+    res.status(200).send();
+  }
+}
+
 async function createVideo(req, res) {
   const { authorId, file, fileName } = req.body;
 
@@ -67,4 +82,4 @@ async function createVideo(req, res) {
   res.send(newVideo);
 }
 
-export { getVideos, createUser, createVideo };
+export { getVideos, createUser, createVideo, login };
