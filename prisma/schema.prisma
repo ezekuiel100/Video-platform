@@ -11,10 +11,11 @@ datasource db {
 }
 
 model User {
-  id     Int     @id @default(autoincrement())
-  email  String  @unique
-  name   String?
-  videos Video[]
+  id       Int     @id @default(autoincrement())
+  email    String  @unique
+  name     String?
+  password String?
+  videos   Video[]
 }
 
 model Video {

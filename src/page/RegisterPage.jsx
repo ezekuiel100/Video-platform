@@ -1,36 +1,96 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
-function RegisterPage() {
+function RegisterPage(e) {
+  const [error, setError] = useState(null);
+
+  function handleRegister(e) {
+    e.preventDefault();
+
+    const formData = new FormData(e.target);
+
+    const name = formData.get("name");
+    const email = formData.get("email");
+    const password = formData.get("password");
+    const confirmPassword = formData.get("confirmPassword");
+
+    if (password != confirmPassword) {
+      setError("Passwords do not match!");
+      return;
+    }
+
+    fetch("http://localhost:3000/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name, email, password }),
+    })
+      .then((res) => {
+        if (!res.ok) {
+          return res.json().then((error) => setError(error.error));
+        }
+        return res.json();
+      })
+      .then((data) => console.log(data))
+      .catch((error) => console.log(error));
+
+    setError(null);
+  }
+
   return (
-    <div className=" h-screen flex justify-center items-center">
+    <form
+      className=" h-screen flex justify-center items-center"
+      onSubmit={handleRegister}
+    >
       <div className="bg-white w-[30rem]  flex flex-col gap-2 rounded-xl p-8 border border-gray-300 drop-shadow-md">
         <h1 className="text-4xl font-semibold my-4">Register</h1>
 
         <div className="my-5 flex flex-col gap-6">
           <input
             type="text"
-            name=""
+            name="name"
             placeholder="Name"
+            required
             className="border border-gray-200 rounded-lg outline-none p-3 text-sm focus:drop-shadow-md"
           />
           <input
             type="email"
-            name=""
+            name="email"
             placeholder="Email"
+            required
             className="border border-gray-200 rounded-lg outline-none p-3 text-sm focus:drop-shadow-md"
           />
 
           <input
             type="password"
-            name=""
+            name="password"
             placeholder="Password"
+            required
             className="border border-gray-200 rounded-lg outline-none p-3 text-sm focus:drop-shadow-md"
           />
+
+          <div className="flex flex-col">
+            <input
+              type="password"
+              name="confirmPassword"
+              placeholder="Confirm Password"
+              required
+              className="border border-gray-200 rounded-lg outline-none p-3 text-sm focus:drop-shadow-md"
+            />
+
+            {error && <span className="text-red-400">{error}</span>}
+          </div>
         </div>
 
         <div className="my-5 flex flex-col gap-8">
           <div className="flex gap-2 items-center">
-            <input type="checkbox" name="" id="" className="w-4 h-4" />
+            <input
+              type="checkbox"
+              name="acceptTerms"
+              className="w-4 h-4"
+              required
+            />
             <p>Agree to Our terms and Conditions</p>
           </div>
 
@@ -45,7 +105,7 @@ function RegisterPage() {
           </p>
         </div>
       </div>
-    </div>
+    </form>
   );
 }
 

@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import bcrypt from "bcrypt";
 import fs from "fs";
 
 const prisma = new PrismaClient();
@@ -9,16 +10,35 @@ async function getVideos(req, res) {
 }
 
 async function createUser(req, res) {
-  const { name, email } = req.body;
+  const { name, email, password } = req.body;
 
-  const newUser = await prisma.user.create({
-    data: {
-      name,
-      email,
-    },
-  });
+  async function hashPassword() {
+    try {
+      const hash = await bcrypt.hash(password, 10);
+      return hash;
+    } catch (error) {
+      console.error("Error encrypting password:", error);
+    }
+  }
 
-  res.json(newUser);
+  const hashedPassword = await hashPassword();
+
+  try {
+    const newUser = await prisma.user.create({
+      data: {
+        name,
+        email,
+        password: hashedPassword,
+      },
+    });
+
+    res.json({ message: "User created successfully!", user: newUser });
+  } catch (error) {
+    if (error.code === "P2002") {
+      res.status(409).json({ error: "Email already in use." });
+      return;
+    }
+  }
 }
 
 async function createVideo(req, res) {
