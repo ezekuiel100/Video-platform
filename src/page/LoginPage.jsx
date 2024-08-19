@@ -1,7 +1,9 @@
 import { Link, useNavigate } from "react-router-dom";
+import useAuthContextToken from "../AuthContext";
 
 function LoginPage() {
   const navigate = useNavigate();
+  const { setToken } = useAuthContextToken();
 
   function handleLogin(e) {
     e.preventDefault();
@@ -16,12 +18,14 @@ function LoginPage() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ email, password }),
-    }).then((res) => {
-      if (res.ok) {
-        navigate("/");
-        console.log(res);
-      }
-    });
+    })
+      .then((res) => {
+        if (res.ok) {
+          navigate("/");
+          return res.json();
+        }
+      })
+      .then((data) => setToken(data.token));
   }
 
   return (

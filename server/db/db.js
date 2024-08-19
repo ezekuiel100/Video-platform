@@ -48,6 +48,8 @@ async function createUser(req, res) {
 async function login(req, res) {
   const { email, password } = req.body;
 
+  if (!email || !password) return;
+
   const user = await prisma.user.findUnique({
     where: { email },
   });
