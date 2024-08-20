@@ -3,6 +3,7 @@ const app = express();
 
 import cors from "cors";
 import { createUser, createVideo, getVideos, login } from "./db/db.js";
+import authenticateToken from "./middleware.js";
 
 app.use(cors({ origin: "http://localhost:5173" }));
 app.use(express.json());
@@ -15,6 +16,6 @@ app.post("/login", login);
 
 app.post("/upload", createVideo);
 
-app.get("/", getVideos);
+app.get("/", authenticateToken, getVideos);
 
 app.listen("3000", () => console.log("Server is running on port 3000"));

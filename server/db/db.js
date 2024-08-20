@@ -9,7 +9,8 @@ const prisma = new PrismaClient();
 const SECRET_KEY = process.env.JWT_SECRET_KEY;
 
 async function getVideos(req, res) {
-  const videos = await prisma.video.findMany();
+   const videos = await prisma.video.findMany();
+   
   res.json(videos);
 }
 
@@ -62,7 +63,7 @@ async function login(req, res) {
   });
 
   if (match) {
-    res.status(200).send({ token });
+    res.status(200).send({ token, user });
   }
 }
 

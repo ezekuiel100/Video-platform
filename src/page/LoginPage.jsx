@@ -1,9 +1,9 @@
 import { Link, useNavigate } from "react-router-dom";
-import useAuthContextToken from "../AuthContext";
+import useAuthContext from "../AuthContext";
 
 function LoginPage() {
   const navigate = useNavigate();
-  const { setToken } = useAuthContextToken();
+  const { setToken, setUser } = useAuthContext();
 
   function handleLogin(e) {
     e.preventDefault();
@@ -25,7 +25,9 @@ function LoginPage() {
           return res.json();
         }
       })
-      .then((data) => setToken(data.token));
+      .then((data) => {
+        setUser(data.user)
+        setToken(data.token)});
   }
 
   return (

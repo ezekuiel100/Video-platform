@@ -8,9 +8,11 @@ export const AuthContext = createContext({});
 
 function App() {
   const [token, setToken] = useState(null);
+  const [user, setUser] = useState(null)
+
 
   return (
-    <AuthContext.Provider value={{ token, setToken }}>
+    <AuthContext.Provider value={{ token, setToken, setUser, user }}>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />}></Route>
