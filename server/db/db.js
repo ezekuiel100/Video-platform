@@ -9,8 +9,8 @@ const prisma = new PrismaClient();
 const SECRET_KEY = process.env.JWT_SECRET_KEY;
 
 async function getVideos(req, res) {
-   const videos = await prisma.video.findMany();
-   
+  const videos = await prisma.video.findMany();
+
   res.json(videos);
 }
 
@@ -55,16 +55,26 @@ async function login(req, res) {
     where: { email },
   });
 
+  if (!user) return res.status(401).send({ message: "Wrong credentials" });
+
   const hash = user.password;
-  const match = await bcrypt.compareSync(password, hash);
+  const match = await bcrypt.compare(password, hash);
 
   const token = jwt.sign({ userId: user.id, email }, SECRET_KEY, {
     expiresIn: "1h",
   });
 
-  if (match) {
-    res.status(200).send({ token, user });
+  if (!match) {
+    return res.status(401).json({ error: "Invalid credentials" });
   }
+
+  res.cookie("token", token, {
+    httpOnly: true,
+    secure: true,
+    maxAge: 3600000,
+  });
+
+  res.status(200).json({ token, user });
 }
 
 async function createVideo(req, res) {
