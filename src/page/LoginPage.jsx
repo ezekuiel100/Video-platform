@@ -3,7 +3,7 @@ import useAuthContext from "../AuthContext";
 
 function LoginPage() {
   const navigate = useNavigate();
-  const { setToken, setUser } = useAuthContext();
+  const { setIsAuthenticated, setUser } = useAuthContext();
 
   function handleLogin(e) {
     e.preventDefault();
@@ -28,6 +28,8 @@ function LoginPage() {
       })
       .then((data) => {
         if (data) {
+          console.log(data);
+          setIsAuthenticated(true);
           setUser(data.user);
         }
       });

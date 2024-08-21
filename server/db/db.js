@@ -74,7 +74,17 @@ async function login(req, res) {
     maxAge: 3600000,
   });
 
-  res.status(200).json({ token, user });
+  res.status(200).json(user);
+}
+
+function handleLogout(req, res) {
+  res.cookie("token", "", {
+    httpOnly: true,
+    secure: true,
+    expires: 0,
+  });
+
+  res.status(200).json({ message: "Logout successful" });
 }
 
 async function createVideo(req, res) {
@@ -103,4 +113,4 @@ async function createVideo(req, res) {
   res.send(newVideo);
 }
 
-export { getVideos, createUser, createVideo, login };
+export { getVideos, createUser, createVideo, login, handleLogout };
