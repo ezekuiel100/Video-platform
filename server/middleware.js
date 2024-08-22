@@ -6,7 +6,7 @@ dotenv.config();
 export default function authenticateToken(req, res, next) {
   const token = req.headers.cookie?.split("=")[1];
 
-  if (!token || token === "null") {
+  if (!token) {
     return res.sendStatus(401);
   }
 

@@ -7,28 +7,33 @@ import RegisterPage from "./page/RegisterPage.jsx";
 export const AuthContext = createContext({});
 
 function App() {
-  const [token, setToken] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState();
+
   const [user, setUser] = useState(null);
 
   useEffect(() => {
+    setIsLoading(true);
     fetch("http://localhost:3000/auth/check-session", {
       credentials: "include",
     })
       .then((res) => res.json())
-      .then((data) => setIsAuthenticated(data.isAuthenticated))
-      .catch((err) => console.log(err));
+      .then((data) => {
+        setIsAuthenticated(data.isAuthenticated);
+        // setUser(data.user);
+      })
+      .catch((err) => console.log(err))
+      .finally(() => setIsLoading(false));
   }, []);
 
   return (
     <AuthContext.Provider
       value={{
-        token,
-        setToken,
         setUser,
         user,
         isAuthenticated,
         setIsAuthenticated,
+        isLoading,
       }}
     >
       <BrowserRouter>

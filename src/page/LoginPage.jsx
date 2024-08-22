@@ -28,9 +28,10 @@ function LoginPage() {
       })
       .then((data) => {
         if (data) {
-          console.log(data);
           setIsAuthenticated(true);
           setUser(data.user);
+        } else {
+          setIsAuthenticated(false);
         }
       });
   }

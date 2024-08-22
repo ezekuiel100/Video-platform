@@ -74,7 +74,7 @@ async function login(req, res) {
     maxAge: 3600000,
   });
 
-  res.status(200).json(user);
+  res.status(200).json({ id: user.id, name: user.name, email: user.email });
 }
 
 function handleLogout(req, res) {

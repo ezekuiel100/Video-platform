@@ -4,8 +4,10 @@ import ProfileImage from "./ProfileImage";
 import { useState } from "react";
 
 function Nav() {
-  const { isAuthenticated, setIsAuthenticated } = useAuthContext();
+  const { isAuthenticated, setIsAuthenticated } = useAuthContext(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const { isLoading } = useAuthContext();
 
   function handleToggle() {
     setIsMenuOpen(!isMenuOpen);
@@ -34,7 +36,9 @@ function Nav() {
         type='text'
         className='bg-gray-200 rounded-md w-72 outline-none py-1 px-2 text-sm '
       />
-      {isAuthenticated ? (
+      {isLoading ? (
+        ""
+      ) : isAuthenticated ? (
         <div className='absolute right-10 inline-block' onClick={handleToggle}>
           <ProfileImage />
 

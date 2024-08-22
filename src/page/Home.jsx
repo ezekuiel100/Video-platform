@@ -8,7 +8,9 @@ function Home() {
   useEffect(() => {
     fetch("http://localhost:3000/", { credentials: "include" })
       .then((res) => res.json())
-      .then((data) => setVideos(data))
+      .then((data) => {
+        setVideos(data);
+      })
       .catch((err) => console.log(err));
   }, []);
 
