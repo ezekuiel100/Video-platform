@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import useAuthContext from "../AuthContext";
 import ProfileImage from "./ProfileImage";
 import { useState } from "react";
+import { VideoCameraIcon } from "@heroicons/react/24/outline";
 
 function Nav() {
   const { isAuthenticated, setIsAuthenticated } = useAuthContext(false);
@@ -39,8 +40,13 @@ function Nav() {
       {isLoading ? (
         ""
       ) : isAuthenticated ? (
-        <div className='absolute right-10 inline-block' onClick={handleToggle}>
-          <ProfileImage />
+        <div className='absolute right-10 inline-block'>
+          <div className='flex gap-4 items-center'>
+            <Link to={"/sendvideo"}>
+              <VideoCameraIcon className='size-6 cursor-pointer' />
+            </Link>
+            <ProfileImage onToggle={handleToggle} />
+          </div>
 
           <div
             onClick={SignOut}

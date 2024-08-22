@@ -12,7 +12,6 @@ import {
 import authenticateToken from "./middleware.js";
 
 app.use(cors({ origin: "http://localhost:5173", credentials: true }));
-app.use(express.json());
 app.use(express.json({ limit: "1000mb" }));
 
 app.get("/auth/check-session", authenticateToken, (req, res) => {
