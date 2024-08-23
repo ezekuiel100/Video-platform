@@ -1,35 +1,9 @@
 import { Link } from "react-router-dom";
 import useAuthContext from "../AuthContext";
-import ProfileImage from "./ProfileImage";
-import { useState } from "react";
-import { VideoCameraIcon } from "@heroicons/react/24/outline";
+import NavMenu from "./NavMenu";
 
 function Nav() {
-  const { isAuthenticated, setIsAuthenticated } = useAuthContext(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  const { isLoading } = useAuthContext();
-
-  function handleToggle() {
-    setIsMenuOpen(!isMenuOpen);
-  }
-
-  function SignOut() {
-    console.log("signout");
-    fetch("http://localhost:3000/logout", {
-      method: "POST",
-      credentials: "include",
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.message === "Logout successful") {
-          setIsAuthenticated(false);
-
-          window.location.reload();
-        }
-      })
-      .catch((error) => console.log(error));
-  }
+  const { isAuthenticated, isLoading } = useAuthContext();
 
   return (
     <div className='bg-white p-2 drop-shadow-md flex justify-center relative mb-4 '>
@@ -41,21 +15,7 @@ function Nav() {
         ""
       ) : isAuthenticated ? (
         <div className='absolute right-10 inline-block'>
-          <div className='flex gap-4 items-center'>
-            <Link to={"/sendvideo"}>
-              <VideoCameraIcon className='size-6 cursor-pointer' />
-            </Link>
-            <ProfileImage onToggle={handleToggle} />
-          </div>
-
-          <div
-            onClick={SignOut}
-            className={`bg-blue-300 absolute right-0 top-full p-1 px-2 cursor-pointer  ${
-              isMenuOpen ? "block" : "hidden"
-            }`}
-          >
-            SignOut
-          </div>
+          <NavMenu />
         </div>
       ) : (
         <Link

@@ -2,6 +2,8 @@ import { CloudArrowUpIcon, PhotoIcon } from "@heroicons/react/24/outline";
 import { useRef, useState } from "react";
 import axios from "axios";
 import useAuthContext from "../AuthContext";
+import NavMenu from "../components/NavMenu";
+import { Link } from "react-router-dom";
 
 function SendVideo() {
   const [videoFile, setvideoFile] = useState(null);
@@ -25,11 +27,9 @@ function SendVideo() {
     setImageFile(imgUrl);
   }
 
-  function sendVideo() {
+  async function sendVideo() {
     const file = ref.current.files[0];
     const thumbnail = refImg.current.files[0];
-
-    const files = [file, thumbnail];
 
     if (!file) {
       console.log("Nenhum arquivo selecionado");
@@ -37,110 +37,131 @@ function SendVideo() {
     }
 
     const fileName = file.name;
-    let base64File;
-    let thumb;
+    const thumbName = thumbnail?.name;
 
-    files.forEach((file) => {
-      const reader = new FileReader();
+    function fileToBase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
 
-      reader.readAsDataURL(file);
+        reader.onloadend = () => {
+          resolve(reader.result.split(",")[1]);
+        };
 
-      reader.onloadend = () => {
-        if (reader.result.includes("video")) {
-          base64File = reader.result.split(",")[1];
-        } else if (reader.result.includes("image")) {
-          thumb = reader.result.split(",")[1];
-        }
-      };
-    });
+        reader.onerror = (error) => {
+          reject(error);
+        };
+      });
+    }
+
+    const base64File = await fileToBase64(file);
+
+    let thumb = "";
+
+    if (thumbnail) {
+      thumb = await fileToBase64(thumbnail);
+    }
 
     axios
       .post("http://localhost:3000/upload", {
         file: base64File,
         fileName: fileName,
+        thumbName,
         authorId: user.id,
         title,
         thumbnail: thumb,
       })
       .then((data) => {
-        console.log(data);
+        if (data.status == 200) {
+          window.location.reload();
+        }
       })
       .catch((error) => console.log("Erro:", error));
   }
 
   return (
-    <div className='h-screen flex justify-center items-center'>
-      <div className='grid grid-cols-2  w-[50rem] h-[30rem] bg-blue-200 rounded-3xl'>
-        <form className='flex flex-col items-center gap-20 p-6 py-12'>
-          <div className='w-full'>
-            <label htmlFor='title'>Title:</label>
-            <input
-              type='text'
-              name='title'
-              value={title}
-              className='w-full p-2 rounded-lg outline-none'
-              onChange={(e) => setTitle(e.target.value)}
-            />
-          </div>
-
-          <div>
-            <span>Thumbnail:</span>
-
-            <img
-              src={imageFile}
-              className={`h-60 w-52 object-cover ${imageFile ? "" : "hidden"}`}
-            ></img>
-
-            <label
-              htmlFor='thumbnail'
-              className={`cursor-pointer ${imageFile ? "hidden" : ""}`}
-            >
+    <>
+      <nav className='bg-white flex justify-between py-1 px-10 drop-shadow-md'>
+        <Link to={"/"}>Home</Link>
+        <NavMenu />
+      </nav>
+      <div className='h-screen flex justify-center items-center'>
+        <div className='grid grid-cols-2  w-[50rem] h-[30rem] bg-blue-200 rounded-3xl'>
+          <form className='flex flex-col items-center gap-20 p-6 py-12'>
+            <div className='w-full'>
+              <label htmlFor='title'>Title:</label>
               <input
-                ref={refImg}
-                type='file'
-                name=''
-                id='thumbnail'
-                accept='image/*'
-                onChange={handleImage}
-                className='hidden'
+                type='text'
+                name='title'
+                value={title}
+                className='w-full p-2 rounded-lg outline-none'
+                onChange={(e) => setTitle(e.target.value)}
               />
-              <div className='bg-white border border-gray-200 w-48 h-24 rounded-sm grid place-content-center'>
-                <PhotoIcon className='size-6' />
-              </div>
-            </label>
-          </div>
-        </form>
+            </div>
 
-        <div className={`${videoFile ? "grid place-items-center" : "hidden"}`}>
-          <video src={videoFile} className={`w-80 h-60 `}></video>
-          <button
-            onClick={sendVideo}
-            className='text-white bg-blue-500 rounded-xl w-64 '
+            <div>
+              <span>Thumbnail:</span>
+
+              <img
+                src={imageFile}
+                className={`h-60 w-52 object-cover ${
+                  imageFile ? "" : "hidden"
+                }`}
+              ></img>
+
+              <label
+                htmlFor='thumbnail'
+                className={`cursor-pointer ${imageFile ? "hidden" : ""}`}
+              >
+                <input
+                  ref={refImg}
+                  type='file'
+                  name=''
+                  id='thumbnail'
+                  accept='image/*'
+                  onChange={handleImage}
+                  className='hidden'
+                />
+                <div className='bg-white border border-gray-200 w-48 h-24 rounded-sm grid place-content-center'>
+                  <PhotoIcon className='size-6' />
+                </div>
+              </label>
+            </div>
+          </form>
+
+          <div
+            className={`${videoFile ? "grid place-items-center" : "hidden"}`}
           >
-            Publicar
-          </button>
-        </div>
+            <video src={videoFile} className={`w-80 h-60 `}></video>
+            <button
+              onClick={sendVideo}
+              className='text-white bg-blue-500 rounded-xl w-64 '
+            >
+              Publicar
+            </button>
+          </div>
 
-        <label
-          htmlFor='file'
-          className={`flex flex-col justify-center items-center gap-4  ${
-            videoFile && "hidden"
-          }`}
-        >
-          <input
-            ref={ref}
-            type='file'
-            name=''
-            id='file'
-            className='hidden '
-            accept='video/*'
-            onChange={handleFile}
-          />
-          <CloudArrowUpIcon className='size-52 cursor-pointer' />
-          <p className='text-2xl text-center'>Select video</p>
-        </label>
+          <label
+            htmlFor='file'
+            className={`flex flex-col justify-center items-center gap-4  ${
+              videoFile && "hidden"
+            }`}
+          >
+            <input
+              ref={ref}
+              type='file'
+              name=''
+              id='file'
+              className='hidden '
+              accept='video/*'
+              onChange={handleFile}
+            />
+            <CloudArrowUpIcon className='size-52 cursor-pointer' />
+            <p className='text-2xl text-center'>Select video</p>
+          </label>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 
