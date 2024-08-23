@@ -21,7 +21,7 @@ function App() {
       .then((res) => res.json())
       .then((data) => {
         setIsAuthenticated(data.isAuthenticated);
-        // setUser(data.user);
+        setUser(data.user);
       })
       .catch((err) => console.log(err))
       .finally(() => setIsLoading(false));

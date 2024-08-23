@@ -71,7 +71,7 @@ async function login(req, res) {
   res.cookie("token", token, {
     httpOnly: true,
     secure: true,
-    maxAge: 3600000,
+    maxAge: 36000000,
   });
 
   res.status(200).json({ id: user.id, name: user.name, email: user.email });
@@ -88,29 +88,38 @@ function handleLogout(req, res) {
 }
 
 async function createVideo(req, res) {
-  const { authorId, file, fileName } = req.body;
+  const { authorId, file, fileName, title } = req.body;
 
-  // const filePath = `./videos/${fileName}`;
+  const filePath = `./videos/${fileName}`;
 
-  // const fileBuffer = Buffer.from(file, "base64");
+  const fileBuffer = Buffer.from(file, "base64");
 
-  // fs.writeFile(filePath, fileBuffer, (err) => {
-  //   if (err) {
-  //     console.error(err);
-  //     return res.status(500).json({ error: "Erro ao salvar vídeo" });
-  //   }
-  // });
+  fs.writeFile(filePath, fileBuffer, (err) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ error: "Erro ao salvar vídeo" });
+    }
+  });
 
-  // const newVideo = await prisma.video.create({
-  //   data: {
-  //     title: "teste",
-  //     content: "",
-  //     authorId,
-  //     url: "http://localhost:3000/videos/" + fileName,
-  //   },
-  // });
+  const newVideo = await prisma.video.create({
+    data: {
+      title,
+      content: "",
+      authorId,
+      url: "http://localhost:3000/videos/" + fileName,
+    },
+  });
 
   res.send("newVideo");
 }
 
-export { getVideos, createUser, createVideo, login, handleLogout };
+async function checkAuth(req, res) {
+  const { email } = req.user;
+
+  const user = await prisma.user.findUnique({ where: { email } });
+  const userData = { id: user.id, name: user.name, email: user.email };
+
+  res.status(200).json({ isAuthenticated: true, user: userData });
+}
+
+export { getVideos, createUser, createVideo, login, handleLogout, checkAuth };

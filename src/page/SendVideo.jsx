@@ -1,10 +1,15 @@
 import { CloudArrowUpIcon, PhotoIcon } from "@heroicons/react/24/outline";
 import { useRef, useState } from "react";
 import axios from "axios";
+import useAuthContext from "../AuthContext";
 
 function SendVideo() {
   const [videoFile, setvideoFile] = useState(null);
   const [imageFile, setImageFile] = useState(null);
+  const [title, setTitle] = useState("");
+
+  const { user } = useAuthContext();
+
   const ref = useRef();
   const refImg = useRef();
 
@@ -12,7 +17,6 @@ function SendVideo() {
     const file = ref.current.files[0];
     const videoUrl = URL.createObjectURL(file);
     setvideoFile(videoUrl);
-    sendVideo();
   }
 
   function handleImage(e) {
@@ -23,6 +27,9 @@ function SendVideo() {
 
   function sendVideo() {
     const file = ref.current.files[0];
+    const thumbnail = refImg.current.files[0];
+
+    const files = [file, thumbnail];
 
     if (!file) {
       console.log("Nenhum arquivo selecionado");
@@ -30,25 +37,35 @@ function SendVideo() {
     }
 
     const fileName = file.name;
+    let base64File;
+    let thumb;
 
-    const reader = new FileReader();
+    files.forEach((file) => {
+      const reader = new FileReader();
 
-    reader.onloadend = () => {
-      const base64File = reader.result.split(",")[1];
+      reader.readAsDataURL(file);
 
-      axios
-        .post("http://localhost:3000/upload", {
-          file: base64File,
-          fileName: fileName,
-          authorId: 1,
-        })
-        .then((data) => {
-          console.log(data);
-        })
-        .catch((error) => console.log("Erro:", error));
-    };
+      reader.onloadend = () => {
+        if (reader.result.includes("video")) {
+          base64File = reader.result.split(",")[1];
+        } else if (reader.result.includes("image")) {
+          thumb = reader.result.split(",")[1];
+        }
+      };
+    });
 
-    reader.readAsDataURL(file);
+    axios
+      .post("http://localhost:3000/upload", {
+        file: base64File,
+        fileName: fileName,
+        authorId: user.id,
+        title,
+        thumbnail: thumb,
+      })
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => console.log("Erro:", error));
   }
 
   return (
@@ -60,58 +77,68 @@ function SendVideo() {
             <input
               type='text'
               name='title'
+              value={title}
               className='w-full p-2 rounded-lg outline-none'
+              onChange={(e) => setTitle(e.target.value)}
             />
           </div>
 
           <div>
             <span>Thumbnail:</span>
-            {imageFile ? (
-              <img src={imageFile} className='h-60 w-52 object-cover'></img>
-            ) : (
-              <label htmlFor='thumbnail' className='cursor-pointer'>
-                <input
-                  ref={refImg}
-                  type='file'
-                  name=''
-                  id='thumbnail'
-                  accept='image/*'
-                  onChange={handleImage}
-                  className='hidden'
-                />
-                <div className='bg-white border border-gray-200 w-48 h-24 rounded-sm grid place-content-center'>
-                  <PhotoIcon className='size-6' />
-                </div>
-              </label>
-            )}
+
+            <img
+              src={imageFile}
+              className={`h-60 w-52 object-cover ${imageFile ? "" : "hidden"}`}
+            ></img>
+
+            <label
+              htmlFor='thumbnail'
+              className={`cursor-pointer ${imageFile ? "hidden" : ""}`}
+            >
+              <input
+                ref={refImg}
+                type='file'
+                name=''
+                id='thumbnail'
+                accept='image/*'
+                onChange={handleImage}
+                className='hidden'
+              />
+              <div className='bg-white border border-gray-200 w-48 h-24 rounded-sm grid place-content-center'>
+                <PhotoIcon className='size-6' />
+              </div>
+            </label>
           </div>
         </form>
 
-        {videoFile ? (
-          <div className='grid place-items-center'>
-            <video src={videoFile} className='w-80 h-60'></video>
-            <button className='text-white bg-blue-500 rounded-xl w-64 '>
-              Publicar
-            </button>
-          </div>
-        ) : (
-          <label
-            htmlFor='file'
-            className='flex flex-col justify-center items-center gap-4'
+        <div className={`${videoFile ? "grid place-items-center" : "hidden"}`}>
+          <video src={videoFile} className={`w-80 h-60 `}></video>
+          <button
+            onClick={sendVideo}
+            className='text-white bg-blue-500 rounded-xl w-64 '
           >
-            <input
-              ref={ref}
-              type='file'
-              name=''
-              id='file'
-              className='hidden'
-              accept='video/*'
-              onChange={handleFile}
-            />
-            <CloudArrowUpIcon className='size-52 cursor-pointer' />
-            <p className='text-2xl text-center'>Select video</p>
-          </label>
-        )}
+            Publicar
+          </button>
+        </div>
+
+        <label
+          htmlFor='file'
+          className={`flex flex-col justify-center items-center gap-4  ${
+            videoFile && "hidden"
+          }`}
+        >
+          <input
+            ref={ref}
+            type='file'
+            name=''
+            id='file'
+            className='hidden '
+            accept='video/*'
+            onChange={handleFile}
+          />
+          <CloudArrowUpIcon className='size-52 cursor-pointer' />
+          <p className='text-2xl text-center'>Select video</p>
+        </label>
       </div>
     </div>
   );
