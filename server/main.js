@@ -18,6 +18,7 @@ app.use(express.json({ limit: "1000mb" }));
 app.get("/auth/check-session", authenticateToken, checkAuth);
 
 app.use("/videos", express.static("./videos"));
+app.use("/thumbnails", express.static("./thumbnails"));
 
 app.post("/register", createUser);
 
@@ -27,6 +28,6 @@ app.post("/logout", handleLogout);
 
 app.post("/upload", createVideo);
 
-app.get("/", authenticateToken, getVideos);
+app.get("/", getVideos);
 
 app.listen("3000", () => console.log("Server is running on port 3000"));

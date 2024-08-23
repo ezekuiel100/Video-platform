@@ -12,6 +12,8 @@ function SendVideo() {
 
   const { user } = useAuthContext();
 
+  console.log(user);
+
   const ref = useRef();
   const refImg = useRef();
 
@@ -56,7 +58,7 @@ function SendVideo() {
 
     const base64File = await fileToBase64(file);
 
-    let thumb = "";
+    let thumb = null;
 
     if (thumbnail) {
       thumb = await fileToBase64(thumbnail);

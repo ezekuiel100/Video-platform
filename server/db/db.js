@@ -92,10 +92,23 @@ async function createVideo(req, res) {
   const { authorId, file, fileName, title, thumbnail, thumbName } = req.body;
 
   const filePath = `./videos/${fileName}`;
-  const thumbPath = `./thumbnails/${thumbName}`;
-
   const fileBuffer = Buffer.from(file, "base64");
-  const thumbBuffer = Buffer.from(thumbnail, "base64");
+
+  let VideoThumb = "";
+
+  if (thumbnail) {
+    const thumbPath = `./thumbnails/${thumbName}`;
+    const thumbBuffer = Buffer.from(thumbnail, "base64");
+
+    fs.writeFile(thumbPath, thumbBuffer, (err) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).json({ error: "Erro ao salvar imagem" });
+      }
+    });
+
+    VideoThumb = "http://localhost:3000/thumbnails/" + thumbName;
+  }
 
   fs.writeFile(filePath, fileBuffer, (err) => {
     if (err) {
@@ -104,19 +117,12 @@ async function createVideo(req, res) {
     }
   });
 
-  fs.writeFile(thumbPath, thumbBuffer, (err) => {
-    if (err) {
-      console.error(err);
-      return res.status(500).json({ error: "Erro ao salvar imagem" });
-    }
-  });
-
   const newVideo = await prisma.video.create({
     data: {
       title,
       content: "",
       authorId,
-      thumbnail: "http://localhost:3000/thumbnails/" + thumbName,
+      thumbnail: VideoThumb,
       url: "http://localhost:3000/videos/" + fileName,
     },
   });

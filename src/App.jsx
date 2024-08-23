@@ -10,7 +10,6 @@ export const AuthContext = createContext({});
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState();
-
   const [user, setUser] = useState(null);
 
   useEffect(() => {
