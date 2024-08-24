@@ -18,7 +18,7 @@ function NavMenu() {
         if (data.message === "Logout successful") {
           setIsAuthenticated(false);
 
-          window.location.reload();
+          window.location.href = "http://localhost:5173/";
         }
       })
       .catch((error) => console.log(error));

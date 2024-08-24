@@ -130,13 +130,4 @@ async function createVideo(req, res) {
   res.send(newVideo);
 }
 
-async function checkAuth(req, res) {
-  const { email } = req.user;
-
-  const user = await prisma.user.findUnique({ where: { email } });
-  const userData = { id: user.id, name: user.name, email: user.email };
-
-  res.status(200).json({ isAuthenticated: true, user: userData });
-}
-
-export { getVideos, createUser, createVideo, login, handleLogout, checkAuth };
+export { getVideos, createUser, createVideo, login, handleLogout };

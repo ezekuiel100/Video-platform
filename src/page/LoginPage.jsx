@@ -20,16 +20,13 @@ function LoginPage() {
       body: JSON.stringify({ email, password }),
       credentials: "include",
     })
-      .then((res) => {
-        if (res.ok) {
-          navigate("/");
-          return res.json();
-        }
-      })
+      .then((res) => res.json())
       .then((data) => {
         if (data) {
+          console.log(data);
+          localStorage.setItem("user_data", JSON.stringify(data));
           setIsAuthenticated(true);
-          setUser(data.user);
+          navigate("/");
         } else {
           setIsAuthenticated(false);
         }

@@ -12,8 +12,6 @@ function SendVideo() {
 
   const { user } = useAuthContext();
 
-  console.log(user);
-
   const ref = useRef();
   const refImg = useRef();
 
@@ -65,14 +63,18 @@ function SendVideo() {
     }
 
     axios
-      .post("http://localhost:3000/upload", {
-        file: base64File,
-        fileName: fileName,
-        thumbName,
-        authorId: user.id,
-        title,
-        thumbnail: thumb,
-      })
+      .post(
+        "http://localhost:3000/upload",
+        {
+          file: base64File,
+          fileName: fileName,
+          thumbName,
+          authorId: user.id,
+          title,
+          thumbnail: thumb,
+        },
+        { withCredentials: true }
+      )
       .then((data) => {
         if (data.status == 200) {
           window.location.reload();

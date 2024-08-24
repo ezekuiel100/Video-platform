@@ -10,7 +10,9 @@ export const AuthContext = createContext({});
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState();
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(
+    JSON.parse(localStorage.getItem("user_data"))
+  );
 
   useEffect(() => {
     setIsLoading(true);
@@ -19,10 +21,10 @@ function App() {
     })
       .then((res) => res.json())
       .then((data) => {
+        console.log(data);
         setIsAuthenticated(data.isAuthenticated);
-        setUser(data.user);
       })
-      .catch((err) => console.log(err))
+      .catch((error) => console.log(error))
       .finally(() => setIsLoading(false));
   }, []);
 
