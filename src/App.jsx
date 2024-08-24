@@ -4,6 +4,7 @@ import LoginPage from "./page/LoginPage.jsx";
 import Home from "./page/Home.jsx";
 import RegisterPage from "./page/RegisterPage.jsx";
 import SendVideo from "./page/SendVideo.jsx";
+import VideoPage from "./page/VideoPage.jsx";
 
 export const AuthContext = createContext({});
 
@@ -21,7 +22,6 @@ function App() {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setIsAuthenticated(data.isAuthenticated);
       })
       .catch((error) => console.log(error))
@@ -44,6 +44,7 @@ function App() {
           <Route path='/login' element={<LoginPage />}></Route>
           <Route path='/register' element={<RegisterPage />}></Route>
           <Route path='/sendvideo' element={<SendVideo />}></Route>
+          <Route path='/video/:id' element={<VideoPage />}></Route>
         </Routes>
       </BrowserRouter>
     </AuthContext.Provider>

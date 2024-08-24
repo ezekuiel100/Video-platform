@@ -1,4 +1,12 @@
+import { useNavigate } from "react-router-dom";
+
 function VideoGrid({ videos }) {
+  const navigate = useNavigate();
+
+  function handleVideoClick(id) {
+    navigate(`video/${id}`);
+  }
+
   return (
     <div className='max-w-[80rem] grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-2 gap-y-8 p-4 mx-auto'>
       {videos?.map((video, i) => (
@@ -11,8 +19,9 @@ function VideoGrid({ videos }) {
               />
             )}
             <video
+              onClick={() => handleVideoClick(video.id)}
               src={video.url}
-              className=' bg-emerald-300 h-40 w-72 mb-1 '
+              className=' bg-emerald-300 h-40 w-72 mb-1 cursor-pointer'
             />
           </div>
           <div className='flex gap-2'>

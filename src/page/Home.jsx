@@ -11,7 +11,7 @@ function Home() {
       .then((data) => {
         setVideos(data);
       })
-      .catch((err) => console.log(err));
+      .catch((error) => console.log(error));
   }, []);
 
   return (

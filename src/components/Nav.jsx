@@ -6,7 +6,8 @@ function Nav() {
   const { isAuthenticated, isLoading } = useAuthContext();
 
   return (
-    <div className='bg-white p-2 drop-shadow-md flex justify-center relative mb-4 '>
+    <div className='bg-white p-2 px-4 drop-shadow-md flex justify-between  mb-4 '>
+      <Link to={"/"}>Home</Link>
       <input
         type='text'
         className='bg-gray-200 rounded-md w-72 outline-none py-1 px-2 text-sm '
@@ -14,13 +15,13 @@ function Nav() {
       {isLoading ? (
         ""
       ) : isAuthenticated ? (
-        <div className='absolute right-10 inline-block'>
+        <div className=' inline-block'>
           <NavMenu />
         </div>
       ) : (
         <Link
           to={"/login"}
-          className='bg-blue-200 px-4 absolute right-4 cursor-pointer text-sm py-1 rounded-md'
+          className='bg-blue-200 px-4  cursor-pointer text-sm py-1 rounded-md'
         >
           Login
         </Link>

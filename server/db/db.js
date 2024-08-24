@@ -130,4 +130,12 @@ async function createVideo(req, res) {
   res.send(newVideo);
 }
 
-export { getVideos, createUser, createVideo, login, handleLogout };
+async function video(req, res) {
+  const { id } = req.params;
+
+  const video = await prisma.video.findUnique({ where: { id: parseInt(id) } });
+
+  res.send(video);
+}
+
+export { getVideos, createUser, createVideo, login, handleLogout, video };

@@ -17,7 +17,7 @@ function NavMenu() {
       .then((data) => {
         if (data.message === "Logout successful") {
           setIsAuthenticated(false);
-
+          localStorage.removeItem("user_data");
           window.location.href = "http://localhost:5173/";
         }
       })

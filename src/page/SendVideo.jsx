@@ -3,14 +3,19 @@ import { useRef, useState } from "react";
 import axios from "axios";
 import useAuthContext from "../AuthContext";
 import NavMenu from "../components/NavMenu";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function SendVideo() {
   const [videoFile, setvideoFile] = useState(null);
   const [imageFile, setImageFile] = useState(null);
   const [title, setTitle] = useState("");
+  const navigate = useNavigate();
 
-  const { user } = useAuthContext();
+  const { user, isAuthenticated } = useAuthContext();
+
+  if (!isAuthenticated) {
+    navigate("/login");
+  }
 
   const ref = useRef();
   const refImg = useRef();
@@ -108,9 +113,7 @@ function SendVideo() {
 
               <img
                 src={imageFile}
-                className={`h-60 w-52 object-cover ${
-                  imageFile ? "" : "hidden"
-                }`}
+                className={`h-40 w-72  ${imageFile ? "" : "hidden"}`}
               ></img>
 
               <label
@@ -126,7 +129,7 @@ function SendVideo() {
                   onChange={handleImage}
                   className='hidden'
                 />
-                <div className='bg-white border border-gray-200 w-48 h-24 rounded-sm grid place-content-center'>
+                <div className='bg-white border border-gray-200 h-40 w-72 rounded-sm grid place-content-center'>
                   <PhotoIcon className='size-6' />
                 </div>
               </label>

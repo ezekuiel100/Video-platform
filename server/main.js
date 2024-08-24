@@ -8,6 +8,7 @@ import {
   getVideos,
   handleLogout,
   login,
+  video,
 } from "./db/db.js";
 import authenticateToken from "./middleware.js";
 
@@ -31,5 +32,7 @@ app.post("/logout", handleLogout);
 app.post("/upload", authenticateToken, createVideo);
 
 app.get("/", getVideos);
+
+app.get("/api/video/:id", video);
 
 app.listen("3000", () => console.log("Server is running on port 3000"));
