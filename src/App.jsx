@@ -3,7 +3,7 @@ import { Route, BrowserRouter, Routes } from "react-router-dom";
 import LoginPage from "./page/LoginPage.jsx";
 import Home from "./page/Home.jsx";
 import RegisterPage from "./page/RegisterPage.jsx";
-import SendVideo from "./page/SendVideo.jsx";
+import UploadVideo from "./page/UploadVideo.jsx";
 import VideoPage from "./page/VideoPage.jsx";
 
 export const AuthContext = createContext({});
@@ -54,7 +54,7 @@ function App() {
           <Route path='/' element={<Home />}></Route>
           <Route path='/login' element={<LoginPage />}></Route>
           <Route path='/register' element={<RegisterPage />}></Route>
-          <Route path='/sendvideo' element={<SendVideo />}></Route>
+          <Route path='/sendvideo' element={<UploadVideo />}></Route>
           <Route path='/video/:id' element={<VideoPage />}></Route>
         </Routes>
       </BrowserRouter>
