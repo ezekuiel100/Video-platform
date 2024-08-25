@@ -10,7 +10,7 @@ function Nav() {
       <Link to={"/"}>Home</Link>
       <input
         type='text'
-        className='bg-gray-200 rounded-md w-72 outline-none py-1 px-2 text-sm '
+        className='bg-gray-200 rounded-2xl w-72 outline-none py-1 px-2 text-sm '
       />
       {isLoading ? (
         ""

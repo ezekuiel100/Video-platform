@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import Input from "../components/Input";
 
 function RegisterPage(e) {
   const [error, setError] = useState(null);
@@ -48,36 +49,15 @@ function RegisterPage(e) {
         <h1 className='text-4xl font-semibold my-4'>Register</h1>
 
         <div className='my-5 flex flex-col gap-6'>
-          <input
-            type='text'
-            name='name'
-            placeholder='Name'
-            required
-            className='border border-gray-200 rounded-lg outline-none p-3 text-sm focus:drop-shadow-md'
-          />
-          <input
-            type='email'
-            name='email'
-            placeholder='Email'
-            required
-            className='border border-gray-200 rounded-lg outline-none p-3 text-sm focus:drop-shadow-md'
-          />
-
-          <input
-            type='password'
-            name='password'
-            placeholder='Password'
-            required
-            className='border border-gray-200 rounded-lg outline-none p-3 text-sm focus:drop-shadow-md'
-          />
+          <Input type={"text"} name='name' placeholder={"Name"} />
+          <Input type={"email"} name='email' placeholder={"Email"} />
+          <Input type={"password"} name='password' placeholder={"Password"} />
 
           <div className='flex flex-col'>
-            <input
-              type='password'
+            <Input
+              type={"password"}
               name='confirmPassword'
-              placeholder='Confirm Password'
-              required
-              className='border border-gray-200 rounded-lg outline-none p-3 text-sm focus:drop-shadow-md'
+              placeholder={"Confirm Password"}
             />
 
             {error && <span className='text-red-400'>{error}</span>}
