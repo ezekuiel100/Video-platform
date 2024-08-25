@@ -11,7 +11,9 @@ export const AuthContext = createContext({});
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState();
   const [isLoading, setIsLoading] = useState();
-  const [user, setUser] = useState();
+  const [user, setUser] = useState(
+    JSON.parse(localStorage.getItem("user_data"))
+  );
 
   useEffect(() => {
     setIsLoading(true);

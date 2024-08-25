@@ -4,7 +4,7 @@ import { useEffect } from "react";
 
 function LoginPage() {
   const navigate = useNavigate();
-  const { isAuthenticated, setIsAuthenticated } = useAuthContext();
+  const { isAuthenticated, setIsAuthenticated, setUser } = useAuthContext();
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -31,6 +31,7 @@ function LoginPage() {
       .then((data) => {
         if (data.isAuthenticated) {
           localStorage.setItem("user_data", JSON.stringify(data.user));
+          setUser(data.user);
           setIsAuthenticated(data.isAuthenticated);
           navigate("/");
         }

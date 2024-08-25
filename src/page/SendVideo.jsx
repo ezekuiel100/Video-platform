@@ -13,6 +13,8 @@ function SendVideo() {
 
   const { user, isAuthenticated } = useAuthContext();
 
+  console.log(user);
+
   useEffect(() => {
     if (isAuthenticated === false) {
       navigate("/login");
