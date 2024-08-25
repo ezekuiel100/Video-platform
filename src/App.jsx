@@ -9,23 +9,32 @@ import VideoPage from "./page/VideoPage.jsx";
 export const AuthContext = createContext({});
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState();
   const [isLoading, setIsLoading] = useState();
-  const [user, setUser] = useState(
-    JSON.parse(localStorage.getItem("user_data"))
-  );
+  const [user, setUser] = useState();
 
   useEffect(() => {
     setIsLoading(true);
     fetch("http://localhost:3000/auth/check-session", {
       credentials: "include",
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) {
+          return null;
+        }
+        return res.json();
+      })
       .then((data) => {
+        if (!data) {
+          setIsAuthenticated(false);
+          return null;
+        }
         setIsAuthenticated(data.isAuthenticated);
       })
       .catch((error) => console.log(error))
-      .finally(() => setIsLoading(false));
+      .finally(() => {
+        setIsLoading(false);
+      });
   }, []);
 
   return (

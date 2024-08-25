@@ -1,5 +1,5 @@
 import { CloudArrowUpIcon, PhotoIcon } from "@heroicons/react/24/outline";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import useAuthContext from "../AuthContext";
 import NavMenu from "../components/NavMenu";
@@ -13,9 +13,11 @@ function SendVideo() {
 
   const { user, isAuthenticated } = useAuthContext();
 
-  if (!isAuthenticated) {
-    navigate("/login");
-  }
+  useEffect(() => {
+    if (isAuthenticated === false) {
+      navigate("/login");
+    }
+  }, [isAuthenticated]);
 
   const ref = useRef();
   const refImg = useRef();

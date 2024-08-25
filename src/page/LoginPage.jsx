@@ -1,9 +1,16 @@
 import { Link, useNavigate } from "react-router-dom";
 import useAuthContext from "../AuthContext";
+import { useEffect } from "react";
 
 function LoginPage() {
   const navigate = useNavigate();
-  const { setIsAuthenticated, setUser } = useAuthContext();
+  const { isAuthenticated, setIsAuthenticated } = useAuthContext();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/");
+    }
+  }, [isAuthenticated]);
 
   function handleLogin(e) {
     e.preventDefault();
@@ -22,13 +29,10 @@ function LoginPage() {
     })
       .then((res) => res.json())
       .then((data) => {
-        if (data) {
-          console.log(data);
-          localStorage.setItem("user_data", JSON.stringify(data));
-          setIsAuthenticated(true);
+        if (data.isAuthenticated) {
+          localStorage.setItem("user_data", JSON.stringify(data.user));
+          setIsAuthenticated(data.isAuthenticated);
           navigate("/");
-        } else {
-          setIsAuthenticated(false);
         }
       });
   }

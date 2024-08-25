@@ -56,7 +56,10 @@ async function login(req, res) {
     where: { email },
   });
 
-  if (!user) return res.status(401).send({ message: "Wrong credentials" });
+  if (!user)
+    return res
+      .status(401)
+      .send({ isAuthenticated: false, message: "Wrong credentials" });
 
   const hash = user.password;
   const match = await bcrypt.compare(password, hash);
@@ -66,7 +69,9 @@ async function login(req, res) {
   });
 
   if (!match) {
-    return res.status(401).json({ error: "Invalid credentials" });
+    return res
+      .status(401)
+      .json({ isAuthenticated: false, error: "Invalid credentials" });
   }
 
   res.cookie("token", token, {
@@ -75,7 +80,14 @@ async function login(req, res) {
     maxAge: 36000000,
   });
 
-  res.status(200).json({ id: user.id, name: user.name, email: user.email });
+  res.status(200).json({
+    isAuthenticated: true,
+    user: {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+    },
+  });
 }
 
 function handleLogout(req, res) {
