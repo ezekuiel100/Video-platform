@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import Input from "../components/Input";
+import Button from "./Button";
 
 function LoginForm({ onSubmit }) {
   return (
@@ -16,9 +17,8 @@ function LoginForm({ onSubmit }) {
 
       <div className='my-5 flex flex-col gap-8'>
         <a href='#'>Forgot password?</a>
-        <button className='bg-blue-600 p-3 text-white rounded-md hover:bg-blue-500 transition-all'>
-          Continue
-        </button>
+
+        <Button>Continue</Button>
 
         <p className='text-center'>
           New user?{" "}
