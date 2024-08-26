@@ -1,9 +1,23 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 import RegisterForm from "../components/RegisterForm";
+import useFetch from "../hooks/useFetch";
+import { useNavigate } from "react-router-dom";
 
 function RegisterPage(e) {
-  const [error, setError] = useState(null);
+  const [formData, setFormData] = useState(null);
+  const [isSumitted, setIsSumitted] = useState(false);
+  const navigate = useNavigate();
+
+  const { data, error } = useFetch(
+    isSumitted ? "http://localhost:3000/register" : null,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    }
+  );
 
   function handleRegister(e) {
     e.preventDefault();
@@ -16,29 +30,15 @@ function RegisterPage(e) {
     const confirmPassword = formData.get("confirmPassword");
     const profilePic = "src/image/profile.jpg";
 
-    if (password != confirmPassword) {
-      setError("Passwords do not match!");
-      return;
-    }
-
-    fetch("http://localhost:3000/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ name, email, password, profilePic }),
-    })
-      .then((res) => {
-        if (!res.ok) {
-          return res.json().then((error) => setError(error.error));
-        }
-        return res.json();
-      })
-      .then((data) => console.log(data))
-      .catch((error) => console.log(error));
-
-    setError(null);
+    setFormData({ name, email, password, confirmPassword, profilePic });
+    setIsSumitted(true);
   }
+
+  useEffect(() => {
+    if (data) {
+      navigate("/login");
+    }
+  }, [data]);
 
   return <RegisterForm onSubmit={handleRegister} error={error} />;
 }

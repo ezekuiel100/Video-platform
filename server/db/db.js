@@ -15,7 +15,11 @@ async function getVideos(req, res) {
 }
 
 async function createUser(req, res) {
-  const { name, email, password, profilePic } = req.body;
+  const { name, email, password, confirmPassword, profilePic } = req.body;
+
+  if (password != confirmPassword) {
+    return res.status(400).json({ error: "Passwords do not match!" });
+  }
 
   async function hashPassword() {
     try {
@@ -29,7 +33,7 @@ async function createUser(req, res) {
   const hashedPassword = await hashPassword();
 
   try {
-    const newUser = await prisma.user.create({
+    await prisma.user.create({
       data: {
         name,
         email,
@@ -38,7 +42,7 @@ async function createUser(req, res) {
       },
     });
 
-    res.json({ message: "User created successfully!", user: newUser });
+    res.json({ message: "User created successfully!" });
   } catch (error) {
     if (error.code === "P2002") {
       res.status(409).json({ error: "Email already in use." });
