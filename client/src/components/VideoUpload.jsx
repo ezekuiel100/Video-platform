@@ -1,9 +1,9 @@
 import { useRef, useState } from "react";
 import { CloudArrowUpIcon } from "@heroicons/react/24/outline";
+import { forwardRef } from "react";
 
-function VideoUpload({ onUpload }) {
+const VideoUpload = forwardRef(({ onUpload }, ref) => {
   const [videoFile, setvideoFile] = useState(null);
-  const ref = useRef();
 
   function handleFile(e) {
     const file = ref.current.files[0];
@@ -43,6 +43,6 @@ function VideoUpload({ onUpload }) {
       </label>
     </>
   );
-}
+});
 
 export default VideoUpload;

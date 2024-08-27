@@ -3,8 +3,15 @@ import dotenv from "dotenv";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import fs from "fs";
+import path from "path";
+import { dirname } from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 dotenv.config();
+
 const prisma = new PrismaClient();
 const SECRET_KEY = process.env.JWT_SECRET_KEY;
 
@@ -14,25 +21,16 @@ async function getVideos(req, res) {
   res.json(videos);
 }
 
-async function createUser(req, res) {
+async function registerUser(req, res) {
   const { name, email, password, confirmPassword, profilePic } = req.body;
 
   if (password != confirmPassword) {
     return res.status(400).json({ error: "Passwords do not match!" });
   }
 
-  async function hashPassword() {
-    try {
-      const hash = await bcrypt.hash(password, 10);
-      return hash;
-    } catch (error) {
-      console.error("Error encrypting password:", error);
-    }
-  }
-
-  const hashedPassword = await hashPassword();
-
   try {
+    const hashedPassword = await bcrypt.hash(password, 10);
+
     await prisma.user.create({
       data: {
         name,
@@ -94,7 +92,7 @@ async function login(req, res) {
   });
 }
 
-function handleLogout(req, res) {
+function logoutUser(req, res) {
   res.cookie("token", "", {
     httpOnly: true,
     secure: true,
@@ -104,41 +102,29 @@ function handleLogout(req, res) {
   res.status(200).json({ message: "Logout successful" });
 }
 
-async function createVideo(req, res) {
+async function uploadVideo(req, res) {
   const { authorId, file, fileName, title, thumbnail, thumbName } = req.body;
 
-  const filePath = `./videos/${fileName}`;
+  const filePath = path.resolve(__dirname, "../videos", fileName);
   const fileBuffer = Buffer.from(file, "base64");
 
-  let VideoThumb = "";
-
   if (thumbnail) {
-    const thumbPath = `./thumbnails/${thumbName}`;
+    const thumbPath = path.resolve(__dirname, "../thumbnails", thumbName);
     const thumbBuffer = Buffer.from(thumbnail, "base64");
 
-    fs.writeFile(thumbPath, thumbBuffer, (err) => {
-      if (err) {
-        console.error(err);
-        return res.status(500).json({ error: "Erro ao salvar imagem" });
-      }
-    });
-
-    VideoThumb = "http://localhost:3000/thumbnails/" + thumbName;
+    await fs.promises.writeFile(thumbPath, thumbBuffer);
   }
 
-  fs.writeFile(filePath, fileBuffer, (err) => {
-    if (err) {
-      console.error(err);
-      return res.status(500).json({ error: "Erro ao salvar vídeo" });
-    }
-  });
+  await fs.promises.writeFile(filePath, fileBuffer);
 
   const newVideo = await prisma.video.create({
     data: {
       title,
       content: "",
       authorId,
-      thumbnail: VideoThumb,
+      thumbnail: thumbnail
+        ? `http://localhost:3000/thumbnails/${thumbName}`
+        : null,
       url: "http://localhost:3000/videos/" + fileName,
     },
   });
@@ -146,7 +132,7 @@ async function createVideo(req, res) {
   res.send(newVideo);
 }
 
-async function video(req, res) {
+async function getVideoId(req, res) {
   const { id } = req.params;
 
   const video = await prisma.video.findUnique({ where: { id: parseInt(id) } });
@@ -154,4 +140,4 @@ async function video(req, res) {
   res.send(video);
 }
 
-export { getVideos, createUser, createVideo, login, handleLogout, video };
+export { getVideos, registerUser, uploadVideo, login, logoutUser, getVideoId };

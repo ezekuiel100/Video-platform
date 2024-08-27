@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import useAuthContext from "../AuthContext";
 import { useNavigate } from "react-router-dom";
@@ -10,6 +10,8 @@ import VideoForm from "../components/VideoForm";
 function UploadVideo() {
   const [title, setTitle] = useState("");
   const navigate = useNavigate();
+  const ref = useRef();
+  const refImg = useRef();
 
   const { user, isAuthenticated } = useAuthContext();
 
@@ -82,10 +84,10 @@ function UploadVideo() {
         <div className='grid grid-cols-2 w-[50rem] h-[30rem] bg-blue-200 rounded-3xl'>
           <div className='flex flex-col items-center gap-20 px-8 py-12 '>
             <VideoForm title={title} setTitle={setTitle} />
-            <SelectThumbnail />
+            <SelectThumbnail ref={refImg} />
           </div>
 
-          <VideoUpload onUpload={sendVideo} />
+          <VideoUpload onUpload={sendVideo} ref={ref} />
         </div>
       </div>
     </>

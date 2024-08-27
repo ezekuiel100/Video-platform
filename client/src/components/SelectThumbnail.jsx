@@ -1,12 +1,11 @@
 import { PhotoIcon } from "@heroicons/react/24/outline";
-import { useRef, useState } from "react";
+import { forwardRef, useState } from "react";
 
-function SelectThumbnail() {
+const SelectThumbnail = forwardRef(({}, ref) => {
   const [imageFile, setImageFile] = useState(null);
-  const refImg = useRef();
 
   function handleImage(e) {
-    const img = refImg.current.files[0];
+    const img = ref.current.files[0];
     const imgUrl = URL.createObjectURL(img);
     setImageFile(imgUrl);
   }
@@ -25,7 +24,7 @@ function SelectThumbnail() {
         className={`cursor-pointer ${imageFile ? "hidden" : ""}`}
       >
         <input
-          ref={refImg}
+          ref={ref}
           type='file'
           name=''
           id='thumbnail'
@@ -39,6 +38,6 @@ function SelectThumbnail() {
       </label>
     </div>
   );
-}
+});
 
 export default SelectThumbnail;
