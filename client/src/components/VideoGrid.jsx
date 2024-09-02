@@ -14,8 +14,9 @@ function VideoGrid({ videos }) {
           <div className='relative'>
             {video.thumbnail && (
               <img
+                onClick={() => handleVideoClick(video.id)}
                 src={video.thumbnail}
-                className='absolute h-40 w-72 object-cover'
+                className='absolute h-40 w-72 object-cover cursor-pointer'
               />
             )}
             <video
@@ -25,8 +26,16 @@ function VideoGrid({ videos }) {
             />
           </div>
           <div className='flex gap-2'>
-            <img src='/src/image/profile.jpg' className='h-10 rounded-full' />
-            <h3 className='text-lg '>{video.title}</h3>
+            <img
+              src='/src/image/profile.jpg'
+              className='h-9 rounded-full cursor-pointer'
+            />
+            <h3
+              onClick={() => handleVideoClick(video.id)}
+              className='text-base leading-none font-semibold cursor-pointer'
+            >
+              {video.title}
+            </h3>
           </div>
         </div>
       ))}
