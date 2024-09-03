@@ -3,8 +3,7 @@ import useAuthContext from "../AuthContext";
 import NavMenu from "./NavMenu";
 
 function Nav() {
-  const { isAuthenticated, isLoading } = useAuthContext();
-
+  const { user } = useAuthContext();
   return (
     <div className='bg-white p-2 px-4 drop-shadow-md flex justify-between  mb-4 '>
       <Link to={"/"}>Home</Link>
@@ -12,9 +11,7 @@ function Nav() {
         type='text'
         className='bg-gray-200 rounded-2xl w-72 outline-none py-1 px-2 text-sm '
       />
-      {isLoading ? (
-        ""
-      ) : isAuthenticated ? (
+      {user ? (
         <div className=' inline-block'>
           <NavMenu />
         </div>

@@ -1,17 +1,17 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import useAuthContext from "../AuthContext";
 import { useEffect } from "react";
 import LoginForm from "../components/LoginForm";
 
 function LoginPage() {
   const navigate = useNavigate();
-  const { isAuthenticated, setIsAuthenticated, setUser } = useAuthContext();
+  const { user, setUser } = useAuthContext();
 
   useEffect(() => {
-    if (isAuthenticated) {
+    if (user) {
       navigate("/");
     }
-  }, [isAuthenticated]);
+  }, [user]);
 
   function handleLogin(e) {
     e.preventDefault();
@@ -33,7 +33,7 @@ function LoginPage() {
         if (data.isAuthenticated) {
           localStorage.setItem("user_data", JSON.stringify(data.user));
           setUser(data.user);
-          setIsAuthenticated(data.isAuthenticated);
+
           navigate("/");
         }
       });

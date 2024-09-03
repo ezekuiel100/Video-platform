@@ -79,7 +79,8 @@ async function login(req, res) {
   res.cookie("token", token, {
     httpOnly: true,
     secure: true,
-    maxAge: 36000000,
+    sameSite: "None",
+    maxAge: 1000 * 60 * 60 * 24, //1 day,
   });
 
   res.status(200).json({

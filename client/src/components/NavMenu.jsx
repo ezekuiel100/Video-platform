@@ -6,7 +6,7 @@ import useAuthContext from "../AuthContext";
 
 function NavMenu() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { setIsAuthenticated } = useAuthContext();
+  const { setUser } = useAuthContext();
 
   function SignOut() {
     fetch("http://localhost:3000/logout", {
@@ -16,7 +16,7 @@ function NavMenu() {
       .then((res) => res.json())
       .then((data) => {
         if (data.message === "Logout successful") {
-          setIsAuthenticated(false);
+          setUser(false);
           localStorage.removeItem("user_data");
           window.location.href = "http://localhost:5173/";
         }
