@@ -7,6 +7,7 @@ import UploadVideo from "./page/UploadVideo.jsx";
 import VideoPage from "./page/VideoPage.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import CheckSession from "./components/CheckSession.jsx";
+import ChannelPage from "./page/ChannelPage.jsx";
 
 export const AuthContext = createContext({});
 
@@ -32,6 +33,7 @@ function App() {
             element={<ProtectedRoute element={<UploadVideo />} />}
           ></Route>
           <Route path='/video/:id' element={<VideoPage />}></Route>
+          <Route path='/channel/:id' element={<ChannelPage />}></Route>
           <Route path='*' element={<div>Page not found</div>}></Route>
         </Routes>
         <CheckSession />

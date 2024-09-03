@@ -22,6 +22,7 @@ function CheckSession() {
         localStorage.removeItem("user_data");
       });
   }, [location]);
+
   return <></>;
 }
 

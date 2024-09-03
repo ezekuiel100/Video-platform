@@ -1,6 +1,5 @@
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import useAuthContext from "../AuthContext";
-import { useEffect } from "react";
 
 function ProtectedRoute({ element }) {
   const { user } = useAuthContext();

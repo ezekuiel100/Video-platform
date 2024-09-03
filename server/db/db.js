@@ -141,4 +141,24 @@ async function getVideoId(req, res) {
   res.send(video);
 }
 
-export { getVideos, registerUser, uploadVideo, login, logoutUser, getVideoId };
+async function getChannel(req, res) {
+  const authorId = req.params.id;
+
+  const user = await prisma.user.findUnique({
+    where: {
+      id: Number(authorId),
+    },
+  });
+
+  res.send({ ...user, password: "" });
+}
+
+export {
+  getVideos,
+  registerUser,
+  uploadVideo,
+  login,
+  logoutUser,
+  getVideoId,
+  getChannel,
+};
