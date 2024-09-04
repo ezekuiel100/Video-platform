@@ -27,4 +27,8 @@ function VideoPage() {
   );
 }
 
+//profile pic
+//channel name
+//views
+
 export default VideoPage;

@@ -22,18 +22,17 @@ function VideoGrid({ videos }) {
             </Link>
           </div>
           <div className='flex gap-2'>
-            <Link to={`/channel/${video.authorId}`}>
+            <Link to={`/channel/${video.authorId}`} className='flex-shrink-0'>
               <img
                 src='/src/image/profile.jpg'
                 className='h-9 w-9 rounded-full cursor-pointer'
               />
             </Link>
-            <h3
-              onClick={() => handleVideoClick(video.id)}
-              className='text-base leading-none font-semibold cursor-pointer'
-            >
-              {video.title}
-            </h3>
+            <Link to={`video/${video.id}`}>
+              <h3 className='text-base leading-none font-semibold cursor-pointer'>
+                {video.title}
+              </h3>
+            </Link>
           </div>
         </div>
       ))}
