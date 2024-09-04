@@ -4,6 +4,9 @@ import NavMenu from "./NavMenu";
 
 function Nav() {
   const { user } = useAuthContext();
+
+  console.log(user);
+
   return (
     <div className='bg-white p-2 px-4 drop-shadow-md flex justify-between  mb-4 '>
       <Link to={"/"}>Home</Link>

@@ -37,7 +37,7 @@ model Video {
   content   String?
   thumbnail String?
   createdAt DateTime @default(now())
-  views     Int
+  views     Int      @default(0)
   url       String
   channel   Channel  @relation(fields: [channelId], references: [id])
   channelId String

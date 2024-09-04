@@ -6,6 +6,7 @@ import fs from "fs";
 import path from "path";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
+import { channel } from "diagnostics_channel";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -56,6 +57,7 @@ async function login(req, res) {
 
   const user = await prisma.user.findUnique({
     where: { email },
+    include: { channel: true },
   });
 
   if (!user)
@@ -67,7 +69,7 @@ async function login(req, res) {
   const match = await bcrypt.compare(password, hash);
 
   const token = jwt.sign({ userId: user.id, email }, SECRET_KEY, {
-    expiresIn: "10h",
+    expiresIn: "1d",
   });
 
   if (!match) {
@@ -89,6 +91,7 @@ async function login(req, res) {
       id: user.id,
       name: user.name,
       email: user.email,
+      channel: user.channel,
     },
   });
 }
