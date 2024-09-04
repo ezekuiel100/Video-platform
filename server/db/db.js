@@ -148,6 +148,7 @@ async function getChannel(req, res) {
     where: {
       id: Number(authorId),
     },
+    include: { videos: true },
   });
 
   res.send({ ...user, password: "" });
