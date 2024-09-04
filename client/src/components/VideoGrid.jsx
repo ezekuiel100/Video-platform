@@ -25,7 +25,7 @@ function VideoGrid({ videos }) {
             <Link to={`/channel/${video.authorId}`}>
               <img
                 src='/src/image/profile.jpg'
-                className='h-9 rounded-full cursor-pointer'
+                className='h-9 w-9 rounded-full cursor-pointer'
               />
             </Link>
             <h3

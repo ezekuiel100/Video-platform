@@ -28,7 +28,7 @@ function RegisterPage(e) {
     const email = formData.get("email");
     const password = formData.get("password");
     const confirmPassword = formData.get("confirmPassword");
-    const profilePic = "src/image/profile.jpg";
+    const profilePic = "/src/image/profile.jpg";
 
     setFormData({ name, email, password, confirmPassword, profilePic });
     setIsSumitted(true);
