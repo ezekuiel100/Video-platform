@@ -6,7 +6,7 @@ import useAuthContext from "../AuthContext";
 
 function NavMenu() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { setUser } = useAuthContext();
+  const { user, setUser } = useAuthContext();
 
   function SignOut() {
     fetch("http://localhost:3000/logout", {
@@ -30,9 +30,10 @@ function NavMenu() {
 
   return (
     <div className='flex relative gap-4 items-center'>
-      <Link to={"/sendvideo"}>
+      <Link to={user?.channel?.id ? "/sendvideo" : "/createchannel"}>
         <VideoCameraIcon className='size-6 cursor-pointer' />
       </Link>
+
       <ProfileImage onToggle={handleToggle} />
 
       <div

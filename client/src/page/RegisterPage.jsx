@@ -9,13 +9,15 @@ function RegisterPage(e) {
   const { data, error, fetchData } = useFetch();
   const navigate = useNavigate();
 
-  fetchData(isSumitted ? "http://localhost:3000/register" : null, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(formData),
-  });
+  useEffect(() => {
+    fetchData(isSumitted ? "http://localhost:3000/register" : null, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
+  }, []);
 
   function handleRegister(e) {
     e.preventDefault();

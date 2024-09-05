@@ -158,7 +158,20 @@ async function getChannel(req, res) {
 }
 
 async function createChannel(req, res) {
-  console.log(req.body);
+  const { username, userId } = req.body;
+
+  try {
+    await prisma.channel.create({
+      data: {
+        name: username,
+        userId,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+  }
+
+  res.status().send({ message: "Channel created." });
 }
 
 export {

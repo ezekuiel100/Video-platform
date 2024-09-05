@@ -27,7 +27,7 @@ model Channel {
   createAt    DateTime @default(now())
   user        User     @relation(fields: [userId], references: [id])
   userId      Int      @unique
-  subscribers Int
+  subscribers Int      @default(0)
   videos      Video[]
 }
 
