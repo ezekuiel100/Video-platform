@@ -1,20 +1,18 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useState } from "react";
 
-function useFetch(url, options = {}) {
+function useFetch() {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  const stableOptions = useMemo(() => options, [JSON.stringify(options)]);
-
-  useEffect(() => {
-    setIsLoading(true);
-
+  const fetchData = useCallback((url, options = {}) => {
     if (!url) {
       return;
     }
 
-    fetch(url, stableOptions)
+    setIsLoading(true);
+
+    fetch(url, options)
       .then((res) => {
         return res.json();
       })
@@ -29,9 +27,9 @@ function useFetch(url, options = {}) {
       .finally(() => {
         setIsLoading(false);
       });
-  }, [url, stableOptions]);
+  }, []);
 
-  return { data, error, isLoading };
+  return { data, error, isLoading, fetchData };
 }
 
 export default useFetch;

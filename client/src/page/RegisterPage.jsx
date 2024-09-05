@@ -6,18 +6,16 @@ import { useNavigate } from "react-router-dom";
 function RegisterPage(e) {
   const [formData, setFormData] = useState(null);
   const [isSumitted, setIsSumitted] = useState(false);
+  const { data, error, fetchData } = useFetch();
   const navigate = useNavigate();
 
-  const { data, error } = useFetch(
-    isSumitted ? "http://localhost:3000/register" : null,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    }
-  );
+  fetchData(isSumitted ? "http://localhost:3000/register" : null, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(formData),
+  });
 
   function handleRegister(e) {
     e.preventDefault();

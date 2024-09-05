@@ -1,10 +1,30 @@
 import { CameraIcon } from "@heroicons/react/24/outline";
 import Input from "../components/Input";
+import Button from "../components/Button";
+import useFetch from "../hooks/useFetch";
 
 function CreateChannel() {
+  const { error, fetchData } = useFetch();
+
+  function handleSubmit(e) {
+    e.preventDefault();
+
+    const formData = new FormData(e.target);
+    const name = formData.get("name");
+    const channel = formData.get("channel");
+
+    fetchData("http://localhost:3000/createchannel", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name, channel }),
+    });
+  }
+
   return (
     <div className='mt-10'>
-      <div className='w-72 bg-blue-300 mx-auto p-4 flex flex-col gap-3 items-center '>
+      <div className='w-72 bg-blue-300 mx-auto p-4 flex flex-col gap-5 items-center pb-7 '>
         <div className='relative'>
           <img
             src='/src/image/profile.jpg'
@@ -13,9 +33,10 @@ function CreateChannel() {
           <CameraIcon className='size-6 absolute bottom-1 right-4' />
         </div>
 
-        <form className='flex flex-col gap-2 w-full'>
+        <form className='flex flex-col gap-3 w-full' onSubmit={handleSubmit}>
           <Input type={"text"} name={"name"} placeholder={"Name"} />
           <Input type={"text"} name={"channel"} placeholder={"Username"} />
+          <Button>Create channel</Button>
         </form>
       </div>
     </div>

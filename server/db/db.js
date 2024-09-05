@@ -157,6 +157,10 @@ async function getChannel(req, res) {
   res.send({ ...user, password: "" });
 }
 
+async function createChannel(req, res) {
+  console.log(req.body);
+}
+
 export {
   getVideos,
   registerUser,
@@ -165,4 +169,5 @@ export {
   logoutUser,
   getVideoId,
   getChannel,
+  createChannel,
 };

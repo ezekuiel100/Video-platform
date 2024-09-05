@@ -3,9 +3,13 @@ import VideoGrid from "../components/VideoGrid";
 import useFetch from "../hooks/useFetch";
 
 function Home() {
-  const { data } = useFetch("http://localhost:3000/", {
-    credentials: "include",
-  });
+  const { data, fetchData } = useFetch();
+
+  // fetchData("http://localhost:3000/", {
+  //   credentials: "include",
+  // });
+
+  console.log("homeeee");
 
   return (
     <>

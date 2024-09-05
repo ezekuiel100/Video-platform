@@ -4,11 +4,11 @@ import useFetch from "../hooks/useFetch";
 import Nav from "../components/Nav";
 
 function ChannelPage() {
+  const { data, fetchData } = useFetch();
   const { id } = useParams();
 
   if (!id) return;
-
-  const { data } = useFetch(`http://localhost:3000/channel/${id}`);
+  fetchData(`http://localhost:3000/channel/${id}`);
 
   if (!data) return;
 

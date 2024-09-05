@@ -8,6 +8,7 @@ import {
   login,
   getVideoId,
   getChannel,
+  createChannel,
 } from "./db/db.js";
 import authenticateToken from "./middleware.js";
 
@@ -26,6 +27,7 @@ app.post("/login", login);
 app.post("/register", registerUser);
 app.post("/logout", logoutUser);
 
+app.post("/createchannel", createChannel);
 app.get("/channel/:id", getChannel);
 
 app.get("/", getVideos);
