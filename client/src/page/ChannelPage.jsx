@@ -19,7 +19,7 @@ function ChannelPage() {
         <div className='basis-[70rem] max-w-[70rem] '>
           <div className='flex gap-2  p-2 py-4'>
             <img
-              src={data.profilePic}
+              src={data.profileImage}
               className='h-16 w-16 rounded-full '
             ></img>
             <h1 className='text-xl'>{data.name}</h1>

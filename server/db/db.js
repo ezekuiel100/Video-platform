@@ -6,7 +6,6 @@ import fs from "fs";
 import path from "path";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
-import { channel } from "diagnostics_channel";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -23,7 +22,7 @@ async function getVideos(req, res) {
 }
 
 async function registerUser(req, res) {
-  const { name, email, password, confirmPassword, profilePic } = req.body;
+  const { name, email, password, confirmPassword, profileImage } = req.body;
 
   if (password != confirmPassword) {
     return res.status(400).json({ error: "Passwords do not match!" });
@@ -37,7 +36,7 @@ async function registerUser(req, res) {
         name,
         email,
         password: hashedPassword,
-        profilePic,
+        profileImage,
       },
     });
 
@@ -109,11 +108,11 @@ function logoutUser(req, res) {
 async function uploadVideo(req, res) {
   const { authorId, file, fileName, title, thumbnail, thumbName } = req.body;
 
-  const filePath = path.resolve(__dirname, "../videos", fileName);
+  const filePath = path.resolve(__dirname, "../data/videos", fileName);
   const fileBuffer = Buffer.from(file, "base64");
 
   if (thumbnail) {
-    const thumbPath = path.resolve(__dirname, "../thumbnails", thumbName);
+    const thumbPath = path.resolve(__dirname, "../data/thumbnails", thumbName);
     const thumbBuffer = Buffer.from(thumbnail, "base64");
 
     await fs.promises.writeFile(thumbPath, thumbBuffer);
@@ -179,7 +178,7 @@ async function createChannel(req, res) {
   } else {
     profileImagePath = path.resolve(
       __dirname,
-      "../profileImage",
+      "../data/profileImage",
       imageFileName
     );
   }
@@ -193,7 +192,7 @@ async function createChannel(req, res) {
       data: {
         name: username,
         userId,
-        profilePic: profileImagePath,
+        profileImage: profileImagePath,
       },
     });
   } catch (error) {
@@ -203,7 +202,7 @@ async function createChannel(req, res) {
   const updatedUser = await prisma.user.update({
     where: { id: userId },
     data: {
-      profilePic: profileImagePath,
+      profileImage: profileImagePath,
     },
     include: { channel: true },
   });

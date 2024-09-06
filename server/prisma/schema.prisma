@@ -11,24 +11,24 @@ datasource db {
 }
 
 model User {
-  id         Int      @id @default(autoincrement())
-  profilePic String?  @default("/src/image/profile.jpg")
-  email      String   @unique
-  name       String?
-  password   String?
-  channel    Channel?
+  id           Int      @id @default(autoincrement())
+  profileImage String?  @default("/src/image/profile.jpg")
+  email        String   @unique
+  name         String?
+  password     String?
+  channel      Channel?
 }
 
 model Channel {
-  id          String   @id @default(uuid())
-  name        String   @unique
-  profilePic  String?  @default("/src/image/profile.jpg")
-  description String?
-  createAt    DateTime @default(now())
-  user        User     @relation(fields: [userId], references: [id])
-  userId      Int      @unique
-  subscribers Int      @default(0)
-  videos      Video[]
+  id           String   @id @default(uuid())
+  name         String   @unique
+  profileImage String?  @default("/src/image/profile.jpg")
+  description  String?
+  createAt     DateTime @default(now())
+  user         User     @relation(fields: [userId], references: [id])
+  userId       Int      @unique
+  subscribers  Int      @default(0)
+  videos       Video[]
 }
 
 model Video {
