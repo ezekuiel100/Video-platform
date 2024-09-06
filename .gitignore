@@ -23,7 +23,8 @@ dist-ssr
 *.sln
 *.sw?
 
-server/videos
+videos
 .env
 thumbnails
+profileImage
 

@@ -4,19 +4,26 @@ import Button from "../components/Button";
 import useFetch from "../hooks/useFetch";
 import Nav from "../components/Nav";
 import useAuthContext from "../AuthContext";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function CreateChannel() {
-  const { error, fetchData } = useFetch();
+  const { error, data, fetchData } = useFetch();
+  const navigate = useNavigate();
   const { user } = useAuthContext();
   const [profileImage, setProfileImage] = useState();
+  const ref = useRef();
 
+  if (data) {
+    navigate("/");
+  }
   function handleSubmit(e) {
     e.preventDefault();
 
     const formData = new FormData(e.target);
     const username = formData.get("username");
     const profileImg = formData.get("profileimage");
+    const imageFileName = ref?.current?.files[0];
 
     const reader = new FileReader();
     reader.onload = () => {
@@ -31,6 +38,7 @@ function CreateChannel() {
           userId: user.id,
           username,
           base64Image,
+          imageFileName: imageFileName?.name,
         }),
       });
     };
@@ -58,31 +66,36 @@ function CreateChannel() {
     <>
       <Nav />
       <div className='mt-10'>
-        <div className='w-72 bg-blue-300 mx-auto p-4 flex flex-col gap-5 items-center pb-7 '>
-          <form className='flex flex-col gap-3 w-full' onSubmit={handleSubmit}>
-            <div className='relative'>
-              <img
-                src={profileImage || "/src/image/profile.jpg"}
-                className='h-20 w-20 rounded-full object-cover'
+        <form
+          className='w-72 bg-blue-300 mx-auto p-4 pb-7 flex flex-col gap-3'
+          onSubmit={handleSubmit}
+        >
+          <div className='relative w-fit mx-auto'>
+            <img
+              src={profileImage || "/src/image/profile.jpg"}
+              className='h-20 w-20 rounded-full object-cover'
+            />
+
+            <label
+              htmlFor='profileImage'
+              className='absolute bottom-1 right-4 '
+            >
+              <input
+                ref={ref}
+                type='file'
+                name='profileimage'
+                id='profileImage'
+                accept='image/*'
+                className='hidden '
+                onChange={handleProfileImage}
               />
+              <CameraIcon className='size-6 cursor-pointer' />
+            </label>
+          </div>
 
-              <label htmlFor='profileImage'>
-                <input
-                  type='file'
-                  name='profileimage'
-                  id='profileImage'
-                  accept='image/*'
-                  className='hidden'
-                  onChange={handleProfileImage}
-                />
-                <CameraIcon className='size-6 absolute bottom-1 right-4 cursor-pointer' />
-              </label>
-            </div>
-
-            <Input type={"text"} name={"username"} placeholder={"Username"} />
-            <Button>Create channel</Button>
-          </form>
-        </div>
+          <Input type={"text"} name={"username"} placeholder={"Username"} />
+          <Button>Create channel</Button>
+        </form>
       </div>
     </>
   );

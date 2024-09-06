@@ -157,20 +157,56 @@ async function getChannel(req, res) {
 }
 
 async function createChannel(req, res) {
-  const { username, userId } = req.body;
+  const { userId, username, base64Image, imageFileName } = req.body;
+
+  const existingChannel = await prisma.channel.findUnique({
+    where: { userId },
+  });
+
+  if (existingChannel) {
+    return res.status(400).json({ message: "User already has a channel" });
+  }
+
+  let profileImagePath;
+
+  if (!imageFileName) {
+    profileImagePath = path.resolve(
+      __dirname,
+      "../profileImage",
+      "/src/image/profile.jpg"
+    );
+  } else {
+    profileImagePath = path.resolve(
+      __dirname,
+      "../profileImage",
+      imageFileName
+    );
+  }
 
   try {
+    await fs.promises.writeFile(profileImagePath, base64Image, {
+      encoding: "base64",
+    });
+
     await prisma.channel.create({
       data: {
         name: username,
         userId,
+        profilePic: profileImagePath,
       },
     });
   } catch (error) {
-    console.log(error);
+    console.log(error.message);
   }
 
-  res.status().send({ message: "Channel created." });
+  await prisma.user.update({
+    where: { id: userId },
+    data: {
+      profilePic: profileImagePath,
+    },
+  });
+
+  res.status(200).send({ message: "Channel created." });
 }
 
 export {
