@@ -4,19 +4,23 @@ import Button from "../components/Button";
 import useFetch from "../hooks/useFetch";
 import Nav from "../components/Nav";
 import useAuthContext from "../AuthContext";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function CreateChannel() {
   const { error, data, fetchData } = useFetch();
   const navigate = useNavigate();
-  const { user } = useAuthContext();
+  const { user, setUser } = useAuthContext();
   const [profileImage, setProfileImage] = useState();
   const ref = useRef();
 
-  if (data) {
-    navigate("/");
-  }
+  useEffect(() => {
+    if (data) {
+      setUser(data);
+      navigate("/");
+    }
+  }, [data]);
+
   function handleSubmit(e) {
     e.preventDefault();
 

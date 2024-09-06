@@ -6,6 +6,7 @@ import fs from "fs";
 import path from "path";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
+import { channel } from "diagnostics_channel";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -199,14 +200,15 @@ async function createChannel(req, res) {
     console.log(error.message);
   }
 
-  await prisma.user.update({
+  const updatedUser = await prisma.user.update({
     where: { id: userId },
     data: {
       profilePic: profileImagePath,
     },
+    include: { channel: true },
   });
 
-  res.status(200).send({ message: "Channel created." });
+  res.status(200).send({ ...updatedUser, password: "" });
 }
 
 export {

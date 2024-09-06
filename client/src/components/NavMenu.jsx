@@ -8,6 +8,8 @@ function NavMenu() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { user, setUser } = useAuthContext();
 
+  // console.log(user);
+
   function SignOut() {
     fetch("http://localhost:3000/logout", {
       method: "POST",
