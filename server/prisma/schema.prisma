@@ -12,7 +12,7 @@ datasource db {
 
 model User {
   id         Int      @id @default(autoincrement())
-  profilePic String?
+  profilePic String?  @default("/src/image/profile.jpg")
   email      String   @unique
   name       String?
   password   String?
@@ -22,7 +22,7 @@ model User {
 model Channel {
   id          String   @id @default(uuid())
   name        String   @unique
-  profilePic  String?
+  profilePic  String?  @default("/src/image/profile.jpg")
   description String?
   createAt    DateTime @default(now())
   user        User     @relation(fields: [userId], references: [id])
