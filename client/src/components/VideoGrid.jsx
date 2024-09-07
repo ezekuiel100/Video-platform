@@ -22,7 +22,7 @@ function VideoGrid({ videos }) {
             </Link>
           </div>
           <div className='flex gap-2'>
-            <Link to={`/channel/${video.authorId}`} className='flex-shrink-0'>
+            <Link to={`/channel/${video.channelId}`} className='flex-shrink-0'>
               <img
                 src='/src/image/profile.jpg'
                 className='h-9 w-9 rounded-full cursor-pointer'

@@ -141,11 +141,11 @@ async function getVideoId(req, res) {
 }
 
 async function getChannel(req, res) {
-  const authorId = req.params.id;
+  const id = req.params.id;
 
-  const user = await prisma.user.findUnique({
+  const user = await prisma.channel.findUnique({
     where: {
-      id: Number(authorId),
+      id: id,
     },
     include: { videos: true },
   });

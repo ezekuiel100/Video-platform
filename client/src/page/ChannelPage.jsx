@@ -2,13 +2,16 @@ import { Link, useParams } from "react-router-dom";
 import useFetch from "../hooks/useFetch";
 
 import Nav from "../components/Nav";
+import { useEffect } from "react";
 
 function ChannelPage() {
   const { data, fetchData } = useFetch();
   const { id } = useParams();
 
-  if (!id) return;
-  fetchData(`http://localhost:3000/channel/${id}`);
+  useEffect(() => {
+    if (!id) return;
+    fetchData(`http://localhost:3000/channel/${id}`);
+  }, [id]);
 
   if (!data) return;
 
