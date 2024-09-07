@@ -11,6 +11,7 @@ import {
   getVideoId,
   getChannel,
   createChannel,
+  incrementViews,
 } from "./db/db.js";
 import authenticateToken from "./middleware.js";
 
@@ -40,5 +41,6 @@ app.use("/thumbnails", express.static("./thumbnails"));
 app.post("/upload", authenticateToken, uploadVideo);
 
 app.get("/api/video/:id", getVideoId);
+app.post("/api/views/:id", incrementViews);
 
 app.listen("3000", () => console.log("Server is running on port 3000"));

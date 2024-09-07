@@ -1,13 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import Nav from "../components/Nav";
+import useFetch from "../hooks/useFetch";
 
 function VideoPage() {
   const [videoDetails, setVideoDetails] = useState(null);
+  const { error, fetchData } = useFetch();
+  const ref = useRef(0);
   const { id } = useParams();
-
-  console.log(videoDetails);
 
   useEffect(() => {
     axios
@@ -16,12 +17,27 @@ function VideoPage() {
       .catch((error) => console.log(error));
   }, []);
 
+  function handleClick() {
+    console.log("click");
+    if (ref.current == 0) {
+      fetchData(`http://localhost:3000/api/views/${id}`, {
+        method: "POST",
+      });
+      ref.current++;
+    }
+  }
+
   return (
     <>
       <Nav />
       <div className='mt-4 flex justify-center'>
         <div>
-          <video src={videoDetails?.url} className='h-96' controls></video>
+          <video
+            src={videoDetails?.url}
+            className='h-96'
+            controls
+            onPlay={handleClick}
+          ></video>
           <div className='flex justify-between mb-2'>
             <h1 className='text-2xl'>{videoDetails?.title}</h1>
             <p>{videoDetails?.views} views</p>

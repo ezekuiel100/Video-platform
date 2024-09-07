@@ -146,14 +146,14 @@ async function getVideoId(req, res) {
 async function getChannel(req, res) {
   const id = req.params.id;
 
-  const user = await prisma.channel.findUnique({
+  const channel = await prisma.channel.findUnique({
     where: {
       id: id,
     },
     include: { videos: true },
   });
 
-  res.send({ ...user, password: "" });
+  res.send({ ...channel });
 }
 
 async function createChannel(req, res) {
@@ -211,6 +211,23 @@ async function createChannel(req, res) {
   res.status(200).send({ ...updatedUser, password: "" });
 }
 
+async function incrementViews(req, res) {
+  const videoId = req.params.id;
+
+  await prisma.video.update({
+    where: {
+      id: Number(videoId),
+    },
+    data: {
+      views: {
+        increment: 1,
+      },
+    },
+  });
+
+  res.status(200).send();
+}
+
 export {
   getVideos,
   registerUser,
@@ -220,4 +237,5 @@ export {
   getVideoId,
   getChannel,
   createChannel,
+  incrementViews,
 };
