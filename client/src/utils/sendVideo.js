@@ -39,9 +39,9 @@ export async function sendVideo(title, file, thumbnail, user) {
         file: base64File,
         fileName: fileName,
         thumbName,
-        authorId: user.id,
         title,
         thumbnail: thumb,
+        channel: user.channel.id,
       },
       { withCredentials: true }
     )

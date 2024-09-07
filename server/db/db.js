@@ -102,7 +102,7 @@ function logoutUser(req, res) {
 }
 
 async function uploadVideo(req, res) {
-  const { authorId, file, fileName, title, thumbnail, thumbName } = req.body;
+  const { file, fileName, title, thumbnail, thumbName, channel } = req.body;
 
   const filePath = path.resolve(__dirname, "../data/videos", fileName);
   const fileBuffer = Buffer.from(file, "base64");
@@ -120,11 +120,12 @@ async function uploadVideo(req, res) {
     data: {
       title,
       content: "",
-      authorId,
+
       thumbnail: thumbnail
         ? `http://localhost:3000/data/thumbnails/${thumbName}`
         : null,
       url: "http://localhost:3000/data/videos/" + fileName,
+      channelId: channel,
     },
   });
 
