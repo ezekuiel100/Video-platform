@@ -1,5 +1,7 @@
 import express from "express";
 import cors from "cors";
+import { fileURLToPath } from "url";
+import { dirname, join } from "path";
 import {
   registerUser,
   uploadVideo,
@@ -12,6 +14,9 @@ import {
 } from "./db/db.js";
 import authenticateToken from "./middleware.js";
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
 const app = express();
 
 app.use(cors({ origin: "http://localhost:5173", credentials: true }));
@@ -21,7 +26,7 @@ app.get("/auth/check-session", authenticateToken, (req, res) => {
   res.status(200).json({ isAuthenticated: true });
 });
 
-app.use("/videos", express.static("./videos"));
+app.use("/data", express.static(join(__dirname, "data")));
 
 app.post("/login", login);
 app.post("/register", registerUser);

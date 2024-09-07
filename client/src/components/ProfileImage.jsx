@@ -1,8 +1,8 @@
-function ProfileImage({ onToggle }) {
+function ProfileImage({ onToggle, user }) {
   return (
     <img
+      src={user.profileImage}
       onClick={onToggle}
-      src='/src/image/profile.jpg'
       className={`h-7 w-7 rounded-full cursor-pointer `}
     />
   );

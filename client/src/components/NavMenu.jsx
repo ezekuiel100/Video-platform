@@ -8,8 +8,6 @@ function NavMenu() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { user, setUser } = useAuthContext();
 
-  // console.log(user);
-
   function SignOut() {
     fetch("http://localhost:3000/logout", {
       method: "POST",
@@ -36,7 +34,7 @@ function NavMenu() {
         <VideoCameraIcon className='size-6 cursor-pointer' />
       </Link>
 
-      <ProfileImage onToggle={handleToggle} />
+      <ProfileImage onToggle={handleToggle} user={user} />
 
       <div
         onClick={SignOut}

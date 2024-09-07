@@ -16,6 +16,7 @@ function CreateChannel() {
 
   useEffect(() => {
     if (data) {
+      localStorage.setItem("user_data", JSON.stringify(data));
       setUser(data);
       navigate("/");
     }

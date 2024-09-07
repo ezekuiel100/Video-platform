@@ -6,6 +6,7 @@ import fs from "fs";
 import path from "path";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
+import { profile } from "console";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -86,12 +87,7 @@ async function login(req, res) {
 
   res.status(200).json({
     isAuthenticated: true,
-    user: {
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      channel: user.channel,
-    },
+    user: { ...user, password: "" },
   });
 }
 
@@ -126,9 +122,9 @@ async function uploadVideo(req, res) {
       content: "",
       authorId,
       thumbnail: thumbnail
-        ? `http://localhost:3000/thumbnails/${thumbName}`
+        ? `http://localhost:3000/data/thumbnails/${thumbName}`
         : null,
-      url: "http://localhost:3000/videos/" + fileName,
+      url: "http://localhost:3000/data/videos/" + fileName,
     },
   });
 
@@ -192,7 +188,8 @@ async function createChannel(req, res) {
       data: {
         name: username,
         userId,
-        profileImage: profileImagePath,
+        profileImage:
+          "http://localhost:3000/data/profileImage/" + imageFileName,
       },
     });
   } catch (error) {
@@ -202,7 +199,7 @@ async function createChannel(req, res) {
   const updatedUser = await prisma.user.update({
     where: { id: userId },
     data: {
-      profileImage: profileImagePath,
+      profileImage: "http://localhost:3000/data/profileImage/" + imageFileName,
     },
     include: { channel: true },
   });
