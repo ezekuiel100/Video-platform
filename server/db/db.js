@@ -104,6 +104,12 @@ function logoutUser(req, res) {
 async function uploadVideo(req, res) {
   const { file, fileName, title, thumbnail, thumbName, channel } = req.body;
 
+  if (!title || !file) {
+    return res
+      .status(400)
+      .send({ message: "Title and video file are required." });
+  }
+
   const filePath = path.resolve(__dirname, "../data/videos", fileName);
   const fileBuffer = Buffer.from(file, "base64");
 

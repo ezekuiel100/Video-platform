@@ -4,7 +4,7 @@ import { forwardRef } from "react";
 import useAuthContext from "../AuthContext";
 import { sendVideo } from "../utils/sendVideo";
 
-const VideoUpload = forwardRef(({ title }, refImg) => {
+const VideoUpload = ({ title, refImg }) => {
   const ref = useRef(null);
   const [videoFile, setvideoFile] = useState(null);
 
@@ -54,6 +54,6 @@ const VideoUpload = forwardRef(({ title }, refImg) => {
       </label>
     </>
   );
-});
+};
 
 export default VideoUpload;
