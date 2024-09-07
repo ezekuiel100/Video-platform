@@ -6,8 +6,6 @@ import useFetch from "../hooks/useFetch";
 function Home() {
   const { data, fetchData } = useFetch();
 
-  console.log(data);
-
   useEffect(() => {
     fetchData("http://localhost:3000/", {
       credentials: "include",

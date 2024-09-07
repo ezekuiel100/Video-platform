@@ -21,6 +21,7 @@ function VideoPage() {
         <div>
           <video src={videoDetails?.url} className='h-96' controls></video>
           <h1 className='text-2xl'>{videoDetails?.title}</h1>
+          <p>{videoDetails?.views} views</p>
         </div>
       </div>
     </>

@@ -17,7 +17,7 @@ const prisma = new PrismaClient();
 const SECRET_KEY = process.env.JWT_SECRET_KEY;
 
 async function getVideos(req, res) {
-  const videos = await prisma.video.findMany();
+  const videos = await prisma.video.findMany({ include: { channel: true } });
 
   res.json(videos);
 }

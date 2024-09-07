@@ -17,22 +17,30 @@ function VideoGrid({ videos }) {
             <Link to={`video/${video.id}`}>
               <video
                 src={video.url}
-                className=' bg-emerald-300 h-40 w-72 mb-1 cursor-pointer'
+                className=' bg-black h-40 w-72 mb-1 cursor-pointer'
               />
             </Link>
           </div>
           <div className='flex gap-2'>
             <Link to={`/channel/${video.channelId}`} className='flex-shrink-0'>
               <img
-                src='/src/image/profile.jpg'
+                src={video.channel.profileImage}
                 className='h-9 w-9 rounded-full cursor-pointer'
               />
             </Link>
-            <Link to={`video/${video.id}`}>
-              <h3 className='text-base leading-none font-semibold cursor-pointer'>
-                {video.title}
-              </h3>
-            </Link>
+            <div>
+              <Link to={`video/${video.id}`}>
+                <h3 className='text-base leading-none font-semibold cursor-pointer'>
+                  {video.title}
+                </h3>
+              </Link>
+              <Link to={`/channel/${video.channelId}`}>
+                <p className='text-xs text-gray-500 hover:text-gray-700 transition-all'>
+                  {video.channel.name}
+                </p>
+              </Link>
+              <p className='text-xs text-gray-500'>{video.views} views</p>
+            </div>
           </div>
         </div>
       ))}
