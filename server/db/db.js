@@ -135,7 +135,10 @@ async function uploadVideo(req, res) {
 async function getVideoId(req, res) {
   const { id } = req.params;
 
-  const video = await prisma.video.findUnique({ where: { id: parseInt(id) } });
+  const video = await prisma.video.findUnique({
+    where: { id: parseInt(id) },
+    include: { channel: true },
+  });
 
   res.send(video);
 }
