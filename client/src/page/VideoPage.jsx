@@ -18,7 +18,6 @@ function VideoPage() {
   }, []);
 
   function handleClick() {
-    console.log("click");
     if (ref.current == 0) {
       fetchData(`http://localhost:3000/api/views/${id}`, {
         method: "POST",

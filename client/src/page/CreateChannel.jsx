@@ -18,6 +18,7 @@ function CreateChannel() {
     if (data) {
       localStorage.setItem("user_data", JSON.stringify(data));
       setUser(data);
+      console.log(data);
       navigate("/");
     }
   }, [data]);
@@ -36,6 +37,7 @@ function CreateChannel() {
 
       fetchData("http://localhost:3000/createchannel", {
         method: "POST",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },

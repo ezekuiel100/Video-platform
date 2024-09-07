@@ -165,12 +165,16 @@ async function getChannel(req, res) {
 async function createChannel(req, res) {
   const { userId, username, base64Image, imageFileName } = req.body;
 
-  const existingChannel = await prisma.channel.findUnique({
-    where: { userId },
-  });
+  try {
+    const existingChannel = await prisma.channel.findUnique({
+      where: { userId },
+    });
 
-  if (existingChannel) {
-    return res.status(400).json({ message: "User already has a channel" });
+    if (existingChannel) {
+      return res.status(400).json({ message: "User already has a channel" });
+    }
+  } catch (error) {
+    console.log(error);
   }
 
   let profileImagePath;

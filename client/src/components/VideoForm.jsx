@@ -6,6 +6,7 @@ function VideoForm({ title, setTitle }) {
         <input
           type='text'
           name='title'
+          required
           value={title}
           className='w-full p-2 rounded-lg outline-none'
           onChange={(e) => setTitle(e.target.value)}
