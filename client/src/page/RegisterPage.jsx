@@ -5,19 +5,20 @@ import { useNavigate } from "react-router-dom";
 
 function RegisterPage(e) {
   const [formData, setFormData] = useState(null);
-  const [isSumitted, setIsSumitted] = useState(false);
   const { data, error, fetchData } = useFetch();
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchData(isSumitted ? "http://localhost:3000/register" : null, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    });
-  }, [isSumitted]);
+    if (formData) {
+      fetchData("http://localhost:3000/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+    }
+  }, [formData]);
 
   function handleRegister(e) {
     e.preventDefault();
@@ -30,7 +31,6 @@ function RegisterPage(e) {
     const confirmPassword = formData.get("confirmPassword");
 
     setFormData({ name, email, password, confirmPassword });
-    setIsSumitted(true);
   }
 
   useEffect(() => {
