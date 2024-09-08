@@ -3,17 +3,17 @@ import cors from "cors";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
 import {
-  registerUser,
   uploadVideo,
   getVideos,
   logoutUser,
-  login,
   getVideoId,
   getChannel,
   createChannel,
   incrementViews,
 } from "./db/db.js";
 import authenticateToken from "./middleware.js";
+import loginUser from "./controllers/loginUser.js";
+import registerUser from "./controllers/registerUser.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -29,7 +29,7 @@ app.get("/auth/check-session", authenticateToken, (req, res) => {
 
 app.use("/data", express.static(join(__dirname, "data")));
 
-app.post("/login", login);
+app.post("/login", loginUser);
 app.post("/register", registerUser);
 app.post("/logout", logoutUser);
 

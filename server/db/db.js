@@ -1,12 +1,9 @@
 import { PrismaClient } from "@prisma/client";
 import dotenv from "dotenv";
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
 import fs from "fs";
 import path from "path";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
-import { profile } from "console";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -14,81 +11,11 @@ const __dirname = dirname(__filename);
 dotenv.config();
 
 const prisma = new PrismaClient();
-const SECRET_KEY = process.env.JWT_SECRET_KEY;
 
 async function getVideos(req, res) {
   const videos = await prisma.video.findMany({ include: { channel: true } });
 
   res.json(videos);
-}
-
-async function registerUser(req, res) {
-  const { name, email, password, confirmPassword, profileImage } = req.body;
-
-  if (password != confirmPassword) {
-    return res.status(400).json({ error: "Passwords do not match!" });
-  }
-
-  try {
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    await prisma.user.create({
-      data: {
-        name,
-        email,
-        password: hashedPassword,
-        profileImage,
-      },
-    });
-
-    res.json({ message: "User created successfully!" });
-  } catch (error) {
-    if (error.code === "P2002") {
-      res.status(409).json({ error: "Email already in use." });
-      return;
-    }
-  }
-}
-
-async function login(req, res) {
-  const { email, password } = req.body;
-
-  if (!email || !password) return;
-
-  const user = await prisma.user.findUnique({
-    where: { email },
-    include: { channel: true },
-  });
-
-  if (!user)
-    return res
-      .status(401)
-      .send({ isAuthenticated: false, message: "Wrong credentials" });
-
-  const hash = user.password;
-  const match = await bcrypt.compare(password, hash);
-
-  const token = jwt.sign({ userId: user.id, email }, SECRET_KEY, {
-    expiresIn: "1d",
-  });
-
-  if (!match) {
-    return res
-      .status(401)
-      .json({ isAuthenticated: false, error: "Invalid credentials" });
-  }
-
-  res.cookie("token", token, {
-    httpOnly: true,
-    secure: true,
-    sameSite: "None",
-    maxAge: 1000 * 60 * 60 * 24, //1 day,
-  });
-
-  res.status(200).json({
-    isAuthenticated: true,
-    user: { ...user, password: "" },
-  });
 }
 
 function logoutUser(req, res) {
@@ -240,9 +167,7 @@ async function incrementViews(req, res) {
 
 export {
   getVideos,
-  registerUser,
   uploadVideo,
-  login,
   logoutUser,
   getVideoId,
   getChannel,

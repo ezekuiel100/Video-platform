@@ -17,7 +17,7 @@ function RegisterPage(e) {
       },
       body: JSON.stringify(formData),
     });
-  }, []);
+  }, [isSumitted]);
 
   function handleRegister(e) {
     e.preventDefault();
@@ -28,9 +28,8 @@ function RegisterPage(e) {
     const email = formData.get("email");
     const password = formData.get("password");
     const confirmPassword = formData.get("confirmPassword");
-    const profileImage = "/src/image/profile.jpg";
 
-    setFormData({ name, email, password, confirmPassword, profileImage });
+    setFormData({ name, email, password, confirmPassword });
     setIsSumitted(true);
   }
 
