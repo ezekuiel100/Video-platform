@@ -5,7 +5,7 @@ function useFetch() {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  const fetchData = useCallback((url, options = {}) => {
+  function fetchData(url, options = {}) {
     if (!url) {
       return;
     }
@@ -27,7 +27,7 @@ function useFetch() {
       .finally(() => {
         setIsLoading(false);
       });
-  }, []);
+  }
 
   return { data, error, isLoading, fetchData };
 }

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import RegisterForm from "../components/RegisterForm";
 import useFetch from "../hooks/useFetch";
 import { useNavigate } from "react-router-dom";
@@ -15,6 +15,7 @@ function RegisterPage(e) {
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: "include",
         body: JSON.stringify(formData),
       });
     }

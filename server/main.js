@@ -14,6 +14,7 @@ import {
 import authenticateToken from "./middleware.js";
 import loginUser from "./controllers/loginUser.js";
 import registerUser from "./controllers/registerUser.js";
+import checkIsAuthenticated from "./middleware/checkIsAuthenticated.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -30,7 +31,7 @@ app.get("/auth/check-session", authenticateToken, (req, res) => {
 app.use("/data", express.static(join(__dirname, "data")));
 
 app.post("/login", loginUser);
-app.post("/register", registerUser);
+app.post("/register", checkIsAuthenticated, registerUser);
 app.post("/logout", logoutUser);
 
 app.post("/createchannel", authenticateToken, createChannel);
