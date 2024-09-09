@@ -13,6 +13,7 @@ import getVideoId from "./controllers/getVideoId.js";
 import createChannel from "./controllers/createChannel.js";
 import subscribe from "./controllers/subscribe.js";
 import unsubscribe from "./controllers/unsubscribe.js";
+import { prisma } from "./lib/prisma.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -43,5 +44,16 @@ app.delete("/unsubscribe", unsubscribe);
 
 app.post("/api/views/:id", incrementViews);
 app.get("/api/video/:id", getVideoId);
+
+app.get("/me", authenticateToken, async (req, res) => {
+  const { email } = req.user;
+
+  const user = await prisma.user.findUnique({
+    where: { email },
+    include: { channel: true, subscriptions: true },
+  });
+
+  res.status(200).send({ ...user, password: "" });
+});
 
 app.listen("3000", () => console.log("Server is running on port 3000"));

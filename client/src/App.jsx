@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { Route, BrowserRouter, Routes } from "react-router-dom";
 import LoginPage from "./page/LoginPage.jsx";
 import Home from "./page/Home.jsx";
@@ -15,6 +15,19 @@ export const AuthContext = createContext({});
 
 function App() {
   const [user, setUser] = useState();
+
+  useEffect(() => {
+    fetch("http://localhost:3000/me", {
+      credentials: "include",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setUser(data);
+      })
+      .catch((error) =>
+        console.error("Erro ao buscar dados do usuário:", error.message)
+      );
+  }, []);
 
   return (
     <AuthContext.Provider

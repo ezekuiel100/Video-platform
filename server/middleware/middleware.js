@@ -9,8 +9,12 @@ export default function authenticateToken(req, res, next) {
   if (!token) {
     return res.status(401).json({ isAuthenticated: false });
   }
+
   jwt.verify(token, process.env.JWT_SECRET_KEY, (err, user) => {
-    if (err) return res.status(403).end();
+    if (err) {
+      return res.status(403).json({ message: "Token inválido" });
+    }
+
     req.user = user;
     next();
   });
