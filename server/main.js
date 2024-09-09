@@ -2,19 +2,17 @@ import express from "express";
 import cors from "cors";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
-import {
-  uploadVideo,
-  getVideos,
-  logoutUser,
-  getVideoId,
-  getChannel,
-  createChannel,
-  incrementViews,
-} from "./db/db.js";
-import authenticateToken from "./middleware.js";
+import { getVideos, getChannel, incrementViews } from "./db/db.js";
+import authenticateToken from "./middleware/middleware.js";
 import loginUser from "./controllers/loginUser.js";
 import registerUser from "./controllers/registerUser.js";
 import checkIsAuthenticated from "./middleware/checkIsAuthenticated.js";
+import logoutUser from "./controllers/logoutUser.js";
+import uploadVideo from "./controllers/uploadVideo.js";
+import getVideoId from "./controllers/getVideoId.js";
+import createChannel from "./controllers/createChannel.js";
+import subscribe from "./controllers/subscribe.js";
+import unsubscribe from "./controllers/unsubscribe.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -30,17 +28,20 @@ app.get("/auth/check-session", authenticateToken, (req, res) => {
 
 app.use("/data", express.static(join(__dirname, "data")));
 
+app.get("/", getVideos);
+
 app.post("/login", loginUser);
 app.post("/register", checkIsAuthenticated, registerUser);
 app.post("/logout", logoutUser);
 
 app.post("/createchannel", authenticateToken, createChannel);
 app.get("/channel/:id", getChannel);
-
-app.get("/", getVideos);
 app.post("/upload", authenticateToken, uploadVideo);
 
-app.get("/api/video/:id", getVideoId);
+app.post("/subscribe", subscribe);
+app.delete("/unsubscribe", unsubscribe);
+
 app.post("/api/views/:id", incrementViews);
+app.get("/api/video/:id", getVideoId);
 
 app.listen("3000", () => console.log("Server is running on port 3000"));

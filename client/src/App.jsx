@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useState } from "react";
 import { Route, BrowserRouter, Routes } from "react-router-dom";
 import LoginPage from "./page/LoginPage.jsx";
 import Home from "./page/Home.jsx";
@@ -33,6 +33,7 @@ function App() {
             path='/register'
             element={<GuestRoute element={<RegisterPage />} path={"/"} />}
           ></Route>
+
           <Route
             path='/sendvideo'
             element={

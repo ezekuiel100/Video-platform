@@ -14,7 +14,7 @@ export default async function loginUser(req, res) {
 
   const user = await prisma.user.findUnique({
     where: { email },
-    include: { channel: true },
+    include: { channel: true, subscriptions: true },
   });
 
   if (!user)

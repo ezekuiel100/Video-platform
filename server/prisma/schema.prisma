@@ -11,24 +11,25 @@ datasource db {
 }
 
 model User {
-  id           Int      @id @default(autoincrement())
-  profileImage String?  @default("/src/image/profile.jpg")
-  email        String   @unique
-  name         String?
-  password     String?
-  channel      Channel?
+  id            Int            @id @default(autoincrement())
+  profileImage  String?        @default("/src/image/profile.jpg")
+  email         String         @unique
+  name          String?
+  password      String?
+  subscriptions Subscription[]
+  channel       Channel?
 }
 
 model Channel {
-  id           String   @id @default(uuid())
-  name         String   @unique
-  profileImage String?  @default("/src/image/profile.jpg")
+  id           String         @id @default(uuid())
+  name         String         @unique
+  profileImage String?        @default("/src/image/profile.jpg")
   description  String?
-  createAt     DateTime @default(now())
-  user         User     @relation(fields: [userId], references: [id])
-  userId       Int      @unique
-  subscribers  Int      @default(0)
+  createAt     DateTime       @default(now())
+  user         User           @relation(fields: [userId], references: [id])
+  userId       Int            @unique
   videos       Video[]
+  subscription Subscription[]
 }
 
 model Video {
@@ -38,7 +39,19 @@ model Video {
   thumbnail String?
   createdAt DateTime @default(now())
   views     Int      @default(0)
+  like      Int?
+  dislike   Int?
   url       String
   channel   Channel  @relation(fields: [channelId], references: [id])
   channelId String
+}
+
+model Subscription {
+  id        Int     @id @default(autoincrement())
+  user      User?   @relation(fields: [userId], references: [id])
+  userId    Int
+  channel   Channel @relation(fields: [channelId], references: [id])
+  channelId String
+
+  @@unique([userId, channelId])
 }
