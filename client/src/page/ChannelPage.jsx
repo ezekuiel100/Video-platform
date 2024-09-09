@@ -32,7 +32,6 @@ function ChannelPage() {
     })
       .then((res) => res.json())
       .then((data) => {
-        localStorage.setItem("user_data", JSON.stringify(data));
         setUser(data);
         setIsSubscribed(true);
       })
@@ -40,8 +39,6 @@ function ChannelPage() {
         console.error("Erro ao desinscrever-se:", error);
       });
   }
-
-  console.log(user);
 
   if (!channel) return;
 
@@ -110,7 +107,6 @@ function Subscribed({ setIsSubscribed, setUser }) {
     })
       .then((res) => res.json())
       .then((data) => {
-        localStorage.setItem("user_data", JSON.stringify(data));
         setUser(data);
         setIsSubscribed(false);
       })

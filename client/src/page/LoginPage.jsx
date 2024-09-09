@@ -31,9 +31,7 @@ function LoginPage() {
       .then((res) => res.json())
       .then((data) => {
         if (data.isAuthenticated) {
-          localStorage.setItem("user_data", JSON.stringify(data.user));
           setUser(data.user);
-
           navigate("/");
         }
       })

@@ -12,14 +12,13 @@ function CheckSession() {
     })
       .then((res) => res.json())
       .then((data) => {
+        console.log(data);
         if (!data.isAuthenticated) {
           setUser(null);
-          localStorage.removeItem("user_data");
         }
       })
       .catch(() => {
         setUser(null);
-        localStorage.removeItem("user_data");
       });
   }, [location]);
 

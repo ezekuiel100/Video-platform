@@ -16,8 +16,7 @@ function NavMenu() {
       .then((res) => res.json())
       .then((data) => {
         if (data.message === "Logout successful") {
-          setUser(false);
-          localStorage.removeItem("user_data");
+          setUser(null);
           window.location.href = "http://localhost:5173/";
         }
       })

@@ -14,9 +14,7 @@ import GuestRoute from "./components/GuestRoute.jsx";
 export const AuthContext = createContext({});
 
 function App() {
-  const [user, setUser] = useState(
-    JSON.parse(localStorage.getItem("user_data"))
-  );
+  const [user, setUser] = useState();
 
   return (
     <AuthContext.Provider
