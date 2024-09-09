@@ -16,19 +16,6 @@ export const AuthContext = createContext({});
 function App() {
   const [user, setUser] = useState();
 
-  useEffect(() => {
-    fetch("http://localhost:3000/me", {
-      credentials: "include",
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setUser(data);
-      })
-      .catch((error) =>
-        console.error("Erro ao buscar dados do usuário:", error.message)
-      );
-  }, []);
-
   return (
     <AuthContext.Provider
       value={{

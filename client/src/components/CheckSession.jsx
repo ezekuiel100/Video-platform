@@ -7,17 +7,18 @@ function CheckSession() {
   const { setUser } = useAuthContext();
 
   useEffect(() => {
-    fetch("http://localhost:3000/auth/check-session", {
+    fetch("http://localhost:3000/me", {
       credentials: "include",
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
-        if (!data.isAuthenticated) {
-          setUser(null);
+        if (data?.isAuthenticated === false) {
+          return setUser(null);
         }
+        setUser(data);
       })
-      .catch(() => {
+      .catch((error) => {
+        console.log(error);
         setUser(null);
       });
   }, [location]);

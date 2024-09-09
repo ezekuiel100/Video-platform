@@ -11,23 +11,23 @@ function ChannelPage() {
   const { id } = useParams();
 
   useEffect(() => {
+    setIsSubscribed(user?.subscriptions?.some((sub) => sub.channelId === id));
+  }, [user]);
+
+  useEffect(() => {
     if (!id) return;
     fetchData(`http://localhost:3000/channel/${id}`, {
       credentials: "include",
     });
   }, [id]);
 
-  useEffect(() => {
-    setIsSubscribed(user?.subscriptions.some((sub) => sub.channelId === id));
-  }, []);
-
-  function handlSubscribe() {
+  function handleSubscribe() {
     fetch(`http://localhost:3000/subscribe`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ userId: user.id, channelId: id }),
+      body: JSON.stringify({ userId: user?.id, channelId: id }),
       credentials: "include",
     })
       .then((res) => res.json())
@@ -66,9 +66,10 @@ function ChannelPage() {
                 />
               ) : (
                 <button
-                  className={`bg-blue-500 py-1 text-sm text-white rounded-xl hover:bg-blue-600
+                  disabled={!isSubscribed}
+                  className={`bg-blue-500 py-1 text-sm text-white rounded-xl cursor-pointer hover:bg-blue-600
                  ${user?.channel?.id === id && "hidden"}`}
-                  onClick={handlSubscribe}
+                  onClick={handleSubscribe}
                 >
                   Subscribe
                 </button>
@@ -119,7 +120,7 @@ function Subscribed({ setIsSubscribed, setUser }) {
     <>
       <button
         onClick={handleUnsubscribe}
-        className='bg-gray-400 p-1 rounded-xl text-white  text-sm'
+        className='bg-gray-400 p-1 rounded-xl text-white text-sm'
       >
         {" "}
         Subscribed

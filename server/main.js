@@ -39,8 +39,8 @@ app.post("/createchannel", authenticateToken, createChannel);
 app.get("/channel/:id", getChannel);
 app.post("/upload", authenticateToken, uploadVideo);
 
-app.post("/subscribe", subscribe);
-app.delete("/unsubscribe", unsubscribe);
+app.post("/subscribe", authenticateToken, subscribe);
+app.delete("/unsubscribe", authenticateToken, unsubscribe);
 
 app.post("/api/views/:id", incrementViews);
 app.get("/api/video/:id", getVideoId);
