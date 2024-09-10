@@ -39,7 +39,7 @@ export default async function loginUser(req, res) {
     httpOnly: true,
     secure: true,
     sameSite: "None",
-    maxAge: 10000, //1 day,
+    maxAge: 1000 * 60 * 60 * 24, //1 day,
   });
 
   res.status(200).json({

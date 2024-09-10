@@ -4,11 +4,13 @@ import { prisma } from "../lib/prisma.js";
 export async function registerUseCase(name, email, password) {
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  await prisma.user.create({
+  const user = await prisma.user.create({
     data: {
       name,
       email,
       password: hashedPassword,
     },
   });
+
+  return { user };
 }
