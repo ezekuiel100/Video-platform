@@ -1,5 +1,4 @@
-import bcrypt from "bcrypt";
-import { prisma } from "../lib/prisma.js";
+import { registerUseCase } from "../services/register.js";
 
 export default async function registerUser(req, res) {
   const { name, email, password, confirmPassword } = req.body;
@@ -9,15 +8,7 @@ export default async function registerUser(req, res) {
   }
 
   try {
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    await prisma.user.create({
-      data: {
-        name,
-        email,
-        password: hashedPassword,
-      },
-    });
+    await registerUseCase(name, email, password);
 
     res.json({ message: "User created successfully!" });
   } catch (error) {
@@ -25,5 +16,7 @@ export default async function registerUser(req, res) {
       res.status(409).json({ error: "Email already in use." });
       return;
     }
+
+    res.status(409).json({ message: error.message });
   }
 }
