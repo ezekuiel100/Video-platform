@@ -16,13 +16,13 @@ function ChannelPage() {
 
   useEffect(() => {
     if (!id) return;
-    fetchData(`http://13.58.63.58:3000/channel/${id}`, {
+    fetchData(`https://13.58.63.58:3000/channel/${id}`, {
       credentials: "include",
     });
   }, [id]);
 
   function handleSubscribe() {
-    fetch(`http://13.58.63.58:3000/subscribe`, {
+    fetch(`https://13.58.63.58:3000/subscribe`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -98,7 +98,7 @@ function Subscribed({ setIsSubscribed, setUser }) {
   const { id } = useParams();
 
   function handleUnsubscribe() {
-    fetch(`http://13.58.63.58:3000/unsubscribe`, {
+    fetch(`https://13.58.63.58:3000/unsubscribe`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",

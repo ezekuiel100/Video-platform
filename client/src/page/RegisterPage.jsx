@@ -10,7 +10,7 @@ function RegisterPage(e) {
 
   useEffect(() => {
     if (formData) {
-      fetchData("http://13.58.63.58:3000/register", {
+      fetchData("https://13.58.63.58:3000/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

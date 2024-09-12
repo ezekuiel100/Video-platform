@@ -9,7 +9,7 @@ function NavMenu() {
   const { user, setUser } = useAuthContext();
 
   function SignOut() {
-    fetch("http://13.58.63.58:3000/logout", {
+    fetch("https://13.58.63.58:3000/logout", {
       method: "POST",
       credentials: "include",
     })

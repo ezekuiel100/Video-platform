@@ -12,14 +12,14 @@ function VideoPage() {
 
   useEffect(() => {
     axios
-      .get(`http://13.58.63.58:3000/api/video/${id}`)
+      .get(`https://13.58.63.58:3000/api/video/${id}`)
       .then((res) => setVideoDetails(res.data))
       .catch((error) => console.log(error));
   }, []);
 
   function handleClick() {
     if (ref.current == 0) {
-      fetchData(`http://13.58.63.58:3000/api/views/${id}`, {
+      fetchData(`https://13.58.63.58:3000/api/views/${id}`, {
         method: "POST",
       });
       ref.current++;

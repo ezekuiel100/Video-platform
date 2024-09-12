@@ -33,7 +33,7 @@ function CreateChannel() {
     reader.onload = () => {
       const base64Image = reader.result.split(",")[1];
 
-      fetchData("http://13.58.63.58:3000/createchannel", {
+      fetchData("https://13.58.63.58:3000/createchannel", {
         method: "POST",
         credentials: "include",
         headers: {
