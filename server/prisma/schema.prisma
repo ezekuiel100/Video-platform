@@ -6,7 +6,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -39,8 +39,6 @@ model Video {
   thumbnail String?
   createdAt DateTime @default(now())
   views     Int      @default(0)
-  like      Int?
-  dislike   Int?
   url       String
   channel   Channel  @relation(fields: [channelId], references: [id])
   channelId String
