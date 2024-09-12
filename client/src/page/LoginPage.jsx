@@ -20,7 +20,7 @@ function LoginPage() {
     const email = formData.get("email");
     const password = formData.get("password");
 
-    fetch("http://localhost:3000/login", {
+    fetch("http://13.58.63.58:3000/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

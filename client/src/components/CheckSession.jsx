@@ -7,7 +7,7 @@ function CheckSession() {
   const { setUser } = useAuthContext();
 
   useEffect(() => {
-    fetch("http://localhost:3000/me", {
+    fetch("http://13.58.63.58:3000/me", {
       credentials: "include",
     })
       .then((res) => res.json())
