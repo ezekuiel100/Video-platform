@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 function RegisterPage(e) {
   const [formData, setFormData] = useState(null);
-  const { data, error, fetchData } = useFetch(null);
+  const [data, error, isLoading, fetchData] = useFetch(null);
   const navigate = useNavigate();
 
   useEffect(() => {

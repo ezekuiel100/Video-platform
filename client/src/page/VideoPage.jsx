@@ -6,7 +6,7 @@ import useFetch from "../hooks/useFetch";
 
 function VideoPage() {
   const [videoDetails, setVideoDetails] = useState(null);
-  const { error, fetchData } = useFetch();
+  const [_, , , fetchData] = useFetch(null);
   const ref = useRef(0);
   const { id } = useParams();
 

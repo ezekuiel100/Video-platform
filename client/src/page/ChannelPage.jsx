@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import useAuthContext from "../AuthContext";
 
 function ChannelPage() {
-  const { data: channel, fetchData } = useFetch();
+  const [channel, error, isLoading, fetchData] = useFetch();
   const [isSubscribed, setIsSubscribed] = useState(null);
   const { user, setUser } = useAuthContext();
   const { id } = useParams();

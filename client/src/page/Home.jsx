@@ -4,7 +4,7 @@ import VideoGrid from "../components/VideoGrid";
 import useFetch from "../hooks/useFetch";
 
 function Home() {
-  const { data, fetchData } = useFetch();
+  const [data, error, isLoading, fetchData] = useFetch();
 
   useEffect(() => {
     fetchData("http://localhost:3000/", {
