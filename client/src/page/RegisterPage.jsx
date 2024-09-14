@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import RegisterForm from "../components/RegisterForm";
 import useFetch from "../hooks/useFetch";
 import { useNavigate } from "react-router-dom";
@@ -10,7 +10,7 @@ function RegisterPage(e) {
 
   useEffect(() => {
     if (formData) {
-      fetchData("https://13.58.63.58:3000/register", {
+      fetchData("http://localhost:3000/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

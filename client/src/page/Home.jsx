@@ -7,7 +7,7 @@ function Home() {
   const { data, fetchData } = useFetch();
 
   useEffect(() => {
-    fetchData("https://13.58.63.58:3000/", {
+    fetchData("http://localhost:3000/", {
       credentials: "include",
     });
   }, []);

@@ -98,7 +98,7 @@ function Subscribed({ setIsSubscribed, setUser }) {
   const { id } = useParams();
 
   function handleUnsubscribe() {
-    fetch(`https://13.58.63.58:3000/unsubscribe`, {
+    fetch(`http://localhost:3000/unsubscribe`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",

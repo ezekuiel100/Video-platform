@@ -1,7 +1,12 @@
 import { prisma } from "../lib/prisma.js";
 import { __filename, __dirname } from "../utils/pathUtils.js";
-import fs from "fs";
-import path from "path";
+import AWS from "aws-sdk";
+
+const s3 = new AWS.S3({
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  region: process.env.AWS_REGION,
+});
 
 export default async function uploadVideo(req, res) {
   const { file, fileName, title, thumbnail, thumbName, channel } = req.body;
@@ -12,30 +17,38 @@ export default async function uploadVideo(req, res) {
       .send({ message: "Title and video file are required." });
   }
 
-  const filePath = path.resolve(__dirname, "../data/videos", fileName);
   const fileBuffer = Buffer.from(file, "base64");
 
-  if (thumbnail) {
-    const thumbPath = path.resolve(__dirname, "../data/thumbnails", thumbName);
-    const thumbBuffer = Buffer.from(thumbnail, "base64");
+  function uploadToS3(buffer, name, folder) {
+    const params = {
+      Bucket: process.env.AWS_S3_BUCKET_NAME, // Nome do bucket
+      Key: `${folder}/${name}`, // Caminho no bucket
+      Body: buffer, // Conteúdo do arquivo
+      ContentType: folder === "videos" ? "video/mp4" : "image/jpeg", // Ajustar MIME conforme o tipo
+    };
 
-    await fs.promises.writeFile(thumbPath, thumbBuffer);
+    return s3.upload(params).promise();
   }
 
-  await fs.promises.writeFile(filePath, fileBuffer);
+  try {
+    const videoUploadResponse = await uploadToS3(
+      fileBuffer,
+      fileName,
+      "videos"
+    );
 
-  const newVideo = await prisma.video.create({
-    data: {
-      title,
-      content: "",
-
-      thumbnail: thumbnail
-        ? `http://localhost:3000/data/thumbnails/${thumbName}`
-        : null,
-      url: "http://localhost:3000/data/videos/" + fileName,
-      channelId: channel,
-    },
-  });
-
-  res.send(newVideo);
+    const newVideo = await prisma.video.create({
+      data: {
+        title,
+        content: "",
+        thumbnail: null,
+        url: videoUploadResponse.Location,
+        channelId: channel,
+      },
+    });
+    console.log(newVideo);
+    res.send(newVideo);
+  } catch (error) {
+    console.log(error.message);
+  }
 }
