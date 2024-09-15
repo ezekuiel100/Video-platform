@@ -13,7 +13,7 @@ function CheckSession() {
       .then((res) => res.json())
       .then((data) => {
         if (data?.isAuthenticated === false) {
-          return setUser(null);
+          return setUser(data.isAuthenticated);
         }
         setUser(data);
       })

@@ -1,6 +1,5 @@
 import { useRef, useState } from "react";
 import { CloudArrowUpIcon } from "@heroicons/react/24/outline";
-import { forwardRef } from "react";
 import useAuthContext from "../AuthContext";
 import { sendVideo } from "../utils/sendVideo";
 

@@ -14,6 +14,7 @@ function VideoPage() {
     axios
       .get(`http://localhost:3000/api/video/${id}`)
       .then((res) => setVideoDetails(res.data))
+
       .catch((error) => console.log(error));
   }, []);
 

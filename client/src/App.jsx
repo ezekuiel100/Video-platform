@@ -37,6 +37,7 @@ function App() {
             element={
               <ProtectedRoute element={<UploadVideo />} path={"/login"} />
             }
+            login
           ></Route>
           <Route path='/createchannel' element={<CreateChannel />}></Route>
           <Route path='/video/:id' element={<VideoPage />}></Route>
