@@ -15,7 +15,9 @@ function useFetch() {
     fetch(url, options)
       .then((res) => {
         if (!res.ok) {
-          throw new Error(`HTTP error! Status: ${res.status}`);
+          return res.json().then((error) => {
+            throw new Error(error.message);
+          });
         }
         return res.json();
       })
@@ -23,7 +25,9 @@ function useFetch() {
         setData(data);
         setError(null);
       })
-      .catch((error) => setError(error.message))
+      .catch((error) => {
+        setError(error.message);
+      })
       .finally(() => {
         setIsLoading(false);
       });

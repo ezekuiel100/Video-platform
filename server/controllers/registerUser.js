@@ -4,7 +4,8 @@ export default async function registerUser(req, res) {
   const { name, email, password, confirmPassword } = req.body;
 
   if (password != confirmPassword) {
-    return res.status(400).json({ error: "Passwords do not match!" });
+    console.log("password not");
+    return res.status(400).json({ message: "Passwords do not match!" });
   }
 
   try {
@@ -13,10 +14,9 @@ export default async function registerUser(req, res) {
     res.json({ message: "User created successfully!" });
   } catch (error) {
     if (error.code === "P2002") {
-      res.status(409).json({ error: "Email already in use." });
-      return;
+      return res.status(409).json({ message: "Email already in use." });
     }
 
-    res.status(409).json({ message: error.message });
+    res.status(500).json({ message: error.message });
   }
 }
