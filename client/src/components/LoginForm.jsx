@@ -10,17 +10,17 @@ function LoginForm({ onSubmit, loginError }) {
     >
       <h1 className='text-4xl font-semibold my-4'>Login</h1>
 
-      <div className='my-5 flex flex-col gap-6'>
+      <div className='mt-5 flex flex-col gap-6'>
         <Input type={"email"} name={"email"} placeholder={"Email"} />
-
-        <div className='flex flex-col'>
-          <Input type={"password"} name={"password"} placeholder={"Password"} />
-          {loginError && <span className='text-red-400'>{loginError}</span>}
-        </div>
+        <Input type={"password"} name={"password"} placeholder={"Password"} />
       </div>
 
-      <div className='my-3 flex flex-col gap-8'>
-        <a href='#'>Forgot password?</a>
+      {loginError && <span className='text-red-400'>{loginError}</span>}
+
+      <div className='my-6 flex flex-col gap-8'>
+        <a href='#' className='mb-4'>
+          Forgot password?
+        </a>
 
         <Button>Continue</Button>
 
