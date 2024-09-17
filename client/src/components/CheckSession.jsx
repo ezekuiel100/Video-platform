@@ -22,8 +22,6 @@ function CheckSession() {
         setUser(null);
       });
   }, [location]);
-
-  return <></>;
 }
 
 export default CheckSession;

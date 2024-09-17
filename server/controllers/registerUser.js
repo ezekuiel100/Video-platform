@@ -4,7 +4,6 @@ export default async function registerUser(req, res) {
   const { name, email, password, confirmPassword } = req.body;
 
   if (password != confirmPassword) {
-    console.log("password not");
     return res.status(400).json({ message: "Passwords do not match!" });
   }
 
@@ -17,6 +16,6 @@ export default async function registerUser(req, res) {
       return res.status(409).json({ message: "Email already in use." });
     }
 
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: "Internal error" });
   }
 }
