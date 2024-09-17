@@ -36,9 +36,6 @@ export default async function loginUser(req, res) {
       user: userWithoutPassword,
     });
   } catch (error) {
-    console.log(error);
-    return res
-      .status(401)
-      .json({ isAuthenticated: false, message: error.message });
+    res.status(401).json({ isAuthenticated: false, message: error.message });
   }
 }

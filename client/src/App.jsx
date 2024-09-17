@@ -39,7 +39,12 @@ function App() {
             }
             login
           ></Route>
-          <Route path='/createchannel' element={<CreateChannel />}></Route>
+          <Route
+            path='/createchannel'
+            element={
+              <ProtectedRoute element={<CreateChannel />} path={"/login"} />
+            }
+          ></Route>
           <Route path='/video/:id' element={<VideoPage />}></Route>
           <Route path='/channel/:id' element={<ChannelPage />}></Route>
           <Route path='*' element={<div>Page not found</div>}></Route>

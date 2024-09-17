@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import Input from "../components/Input";
 import Button from "./Button";
 
-function LoginForm({ onSubmit }) {
+function LoginForm({ onSubmit, loginError }) {
   return (
     <form
       onSubmit={onSubmit}
@@ -12,10 +12,14 @@ function LoginForm({ onSubmit }) {
 
       <div className='my-5 flex flex-col gap-6'>
         <Input type={"email"} name={"email"} placeholder={"Email"} />
-        <Input type={"password"} name={"password"} placeholder={"Password"} />
+
+        <div className='flex flex-col'>
+          <Input type={"password"} name={"password"} placeholder={"Password"} />
+          {loginError && <span className='text-red-400'>{loginError}</span>}
+        </div>
       </div>
 
-      <div className='my-5 flex flex-col gap-8'>
+      <div className='my-3 flex flex-col gap-8'>
         <a href='#'>Forgot password?</a>
 
         <Button>Continue</Button>
