@@ -1,8 +1,8 @@
 import { prisma } from "../lib/prisma.js";
 import { __filename, __dirname } from "../utils/pathUtils.js";
-import AWS from "aws-sdk";
+import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 
-const s3 = new AWS.S3({
+const s3Client = new S3Client({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
   region: process.env.AWS_REGION,
@@ -19,7 +19,7 @@ export default async function uploadVideo(req, res) {
 
   const fileBuffer = Buffer.from(file, "base64");
 
-  function uploadToS3(buffer, name, folder) {
+  async function uploadToS3(buffer, name, folder) {
     const params = {
       Bucket: process.env.AWS_S3_BUCKET_NAME, // Nome do bucket
       Key: `${folder}/${name}`, // Caminho no bucket
@@ -27,7 +27,10 @@ export default async function uploadVideo(req, res) {
       ContentType: folder === "videos" ? "video/mp4" : "image/jpeg", // Ajustar MIME conforme o tipo
     };
 
-    return s3.upload(params).promise();
+    const command = new PutObjectCommand(params);
+    await s3Client.send(command);
+
+    return `https://${process.env.AWS_S3_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${folder}/${name}`;
   }
 
   try {
@@ -42,7 +45,7 @@ export default async function uploadVideo(req, res) {
         title,
         content: "",
         thumbnail: null,
-        url: videoUploadResponse.Location,
+        url: videoUploadResponse,
         channelId: channel,
       },
     });
