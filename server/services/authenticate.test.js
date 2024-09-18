@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
 
 import { prisma } from "../lib/prisma";
-import { authenticate } from "./autenticate";
+import { authenticate } from "./authenticate";
 import bcrypt from "bcrypt";
 
 vi.mock("../lib/prisma.js", () => ({
@@ -13,7 +13,7 @@ vi.mock("../lib/prisma.js", () => ({
 }));
 
 describe("Login use case", () => {
-  it("Shoud login user", async () => {
+  it("Should authenticate user", async () => {
     const hashedPassword = await bcrypt.hash("12345", 6);
 
     prisma.user.findUnique.mockResolvedValue({
@@ -39,6 +39,21 @@ describe("Login use case", () => {
       password: hashedPassword,
       channel: {},
       subscriptions: [],
+    });
+  });
+
+  it("Should no be able to authenticate with wrong email", async () => {
+    prisma.user.findUnique.mockResolvedValue(null);
+
+    await expect(authenticate("xxx@gmail.com", "12345")).rejects.toThrow(
+      "Invalid credentials"
+    );
+
+    expect(prisma.user.findUnique).toBeCalledWith({
+      where: {
+        email: "xxx@gmail.com",
+      },
+      include: { channel: true, subscriptions: true },
     });
   });
 });
