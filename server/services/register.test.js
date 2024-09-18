@@ -1,4 +1,4 @@
-import { describe, expect, test, it, vi } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { registerUseCase } from "./register";
 import { prisma } from "../lib/prisma";
 
