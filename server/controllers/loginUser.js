@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
-import { authenticate } from "../services/autenticate.js";
+import { authenticate } from "../services/authenticate.js";
 
 dotenv.config();
 

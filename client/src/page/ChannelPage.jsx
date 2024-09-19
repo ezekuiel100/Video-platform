@@ -16,13 +16,13 @@ function ChannelPage() {
 
   useEffect(() => {
     if (!id) return;
-    fetchData(`https://13.58.63.58:3000/channel/${id}`, {
+    fetchData(`http://localhost:3000/channel/${id}`, {
       credentials: "include",
     });
   }, [id]);
 
   function handleSubscribe() {
-    fetch(`https://13.58.63.58:3000/subscribe`, {
+    fetch(`http://localhost:3000/subscribe`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

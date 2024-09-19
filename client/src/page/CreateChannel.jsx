@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 
 function CreateChannel() {
   const [data, , , fetchData] = useFetch();
-  const { user, setUser } = useAuthContext();
+  const { user } = useAuthContext();
   const [profileImage, setProfileImage] = useState();
   const ref = useRef();
 
@@ -17,7 +17,6 @@ function CreateChannel() {
 
   useEffect(() => {
     if (data) {
-      setUser(data);
       navigate("/");
     }
   }, [data]);
