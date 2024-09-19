@@ -14,11 +14,15 @@ export default async function createChannel(req, res) {
     );
   }
 
-  const { message } = await createChannelService(
-    username,
-    userId,
-    profileImageURL
-  );
+  try {
+    const { message } = await createChannelService(
+      username,
+      userId,
+      profileImageURL
+    );
 
-  res.status(200).send({ message });
+    res.status(200).send({ message });
+  } catch (error) {
+    res.status(400).send({ message: error.message });
+  }
 }
