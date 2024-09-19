@@ -66,7 +66,7 @@ function ChannelPage() {
                 />
               ) : (
                 <button
-                  disabled={!isSubscribed}
+                  disabled={isSubscribed}
                   className={`bg-blue-500 py-1 text-sm text-white rounded-xl cursor-pointer hover:bg-blue-600
                  ${user?.channel?.id === id && "hidden"}`}
                   onClick={handleSubscribe}
