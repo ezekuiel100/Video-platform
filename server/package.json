@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "node --watch main",
     "test": "vitest run",
+    "test:all": "vitest run all",
     "test:watch": "vitest"
   },
   "keywords": [],
