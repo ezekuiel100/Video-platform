@@ -1,10 +1,5 @@
-import dotenv from "dotenv";
-import jwt from "jsonwebtoken";
 import { authenticate } from "../services/authenticate.js";
-
-dotenv.config();
-
-const SECRET_KEY = process.env.JWT_SECRET_KEY;
+import generateToken from "../services/tokenService.js";
 
 export default async function loginUser(req, res) {
   const { email, password } = req.body;
@@ -18,9 +13,7 @@ export default async function loginUser(req, res) {
   try {
     const { user } = await authenticate(email, password);
 
-    const token = jwt.sign({ userId: user.id, email }, SECRET_KEY, {
-      expiresIn: "1d",
-    });
+    const token = generateToken(user, email);
 
     res.cookie("token", token, {
       httpOnly: true,
