@@ -26,27 +26,33 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<Home />}></Route>
+
           <Route path='/login' element={<LoginPage />}></Route>
-          <Route
-            path='/register'
-            element={<GuestRoute element={<RegisterPage />} path={"/"} />}
-          ></Route>
+
+          <Route path='/register' element={<RegisterPage />}></Route>
 
           <Route
             path='/sendvideo'
             element={
-              <ProtectedRoute element={<UploadVideo />} path={"/login"} />
+              <ProtectedRoute>
+                <UploadVideo />
+              </ProtectedRoute>
             }
-            login
           ></Route>
+
           <Route
             path='/createchannel'
             element={
-              <ProtectedRoute element={<CreateChannel />} path={"/login"} />
+              <ProtectedRoute>
+                <CreateChannel />
+              </ProtectedRoute>
             }
           ></Route>
+
           <Route path='/video/:id' element={<VideoPage />}></Route>
+
           <Route path='/channel/:id' element={<ChannelPage />}></Route>
+
           <Route path='*' element={<div>Page not found</div>}></Route>
         </Routes>
         <CheckSession />
