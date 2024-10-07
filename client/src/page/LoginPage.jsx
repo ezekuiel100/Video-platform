@@ -40,6 +40,7 @@ function LoginPage() {
       const data = await res.json();
 
       if (data.isAuthenticated) {
+        console.log(data);
         setUser(data.user);
         navigate("/");
       }

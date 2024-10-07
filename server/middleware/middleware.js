@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 export default function authenticateToken(req, res, next) {
-  const token = req.headers.cookie?.split("=")[1];
+  const token = req.headers.cookie?.split("token=")[1];
 
   if (!token) {
     return res.status(401).json({ isAuthenticated: false });
