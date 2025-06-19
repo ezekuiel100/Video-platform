@@ -1,19 +1,24 @@
 import { Link } from "react-router-dom";
 import useAuthContext from "../AuthContext";
 import NavMenu from "./NavMenu";
+import { Search } from "lucide-react"
 
 function Nav() {
   const { user } = useAuthContext();
 
   return (
-    <div className='bg-white p-2 px-4 drop-shadow-md flex justify-between  mb-4 '>
+    <div className='bg-white p-2 px-4 drop-shadow-md flex justify-between mb-4'>
       <Link to={"/"}>Home</Link>
-      <input
-        type='text'
-        className='bg-gray-200 rounded-2xl w-72 outline-none py-1 px-2 text-sm '
-      />
+      <div className="relative">
+        <Search className="absolute top-2 left-2 text-gray-300 size-5" />
+        <input
+          type='text'
+          className='bg-stone-950 rounded-3xl w-96 py-2 outline-none px-4 pl-9 text-sm text-white'
+          placeholder="Search"
+        />
+      </div>
       {user ? (
-        <div className=' inline-block'>
+        <div className='inline-block'>
           <NavMenu />
         </div>
       ) : (
