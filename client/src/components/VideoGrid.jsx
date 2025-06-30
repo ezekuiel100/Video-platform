@@ -2,10 +2,10 @@ import { Link } from "react-router-dom";
 
 function VideoGrid({ videos }) {
   return (
-    <div className='max-w-[80rem] grid  grid-cols-[repeat(auto-fill,minmax(270px,1fr))] gap-2 gap-y-8 p-4 mx-auto '>
+    <div className='max-w-[80rem] grid grid-cols-[repeat(auto-fill,minmax(270px,1fr))] gap-4 gap-y-8 p-4 mx-auto'>
       {videos?.map((video, i) => (
         <div key={i}>
-          <div className='relative'>
+          <div className='relative mb-4 bg-gray-300 rounded-lg'>
             {video.thumbnail && (
               <Link to={`video/${video.id}`}>
                 <img
@@ -30,7 +30,7 @@ function VideoGrid({ videos }) {
             </Link>
             <div>
               <Link to={`video/${video.id}`}>
-                <h3 className='text-base leading-none font-semibold cursor-pointer'>
+                <h3 className='text-base cursor-pointer mb-1'>
                   {video.title}
                 </h3>
               </Link>

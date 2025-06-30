@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useState } from "react";
 import { Route, BrowserRouter, Routes } from "react-router-dom";
 import LoginPage from "./page/LoginPage.jsx";
 import Home from "./page/Home.jsx";
@@ -9,7 +9,7 @@ import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import CheckSession from "./components/CheckSession.jsx";
 import ChannelPage from "./page/ChannelPage.jsx";
 import CreateChannel from "./page/CreateChannel.jsx";
-import GuestRoute from "./components/GuestRoute.jsx";
+// import GuestRoute from "./components/GuestRoute.jsx";
 
 export const AuthContext = createContext({});
 
