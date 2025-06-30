@@ -7,7 +7,7 @@ function Nav() {
   const { user } = useAuthContext();
 
   return (
-    <div className='bg-white p-2 px-4 drop-shadow-md flex justify-between items-center mb-4'>
+    <div className=' p-2 px-4 drop-shadow-md flex justify-between items-center mb-4'>
       <Link to={"/"}>Home</Link>
       <div className="relative">
         <Search className="absolute top-2 left-2 text-gray-300 size-5" />
