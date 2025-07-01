@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import Nav from "../components/Nav";
 import useFetch from "../hooks/useFetch";
+import { Eye } from "lucide-react";
 
 function VideoPage() {
   const [videoDetails, setVideoDetails] = useState(null);
@@ -16,7 +17,7 @@ function VideoPage() {
       .then((res) => setVideoDetails(res.data))
 
       .catch((error) => console.log(error));
-  }, []);
+  }, [id]);
 
   function handleClick() {
     if (ref.current == 0) {
@@ -40,25 +41,34 @@ function VideoPage() {
           ></video>
           <div className='flex justify-between mb-2'>
             <h1 className='text-2xl'>{videoDetails?.title}</h1>
-            <p>{videoDetails?.views} views</p>
           </div>
 
-          <div className='flex gap-2'>
-            <Link to={`/channel/${videoDetails?.channel.id}`}>
-              <img
-                src={videoDetails?.channel.profileImage}
-                className='h-9 w-9 rounded-full cursor-pointer'
-              />
-            </Link>
-            <div className='leading-4'>
+          <div className="flex justify-between">
+            <div className='flex gap-2'>
               <Link to={`/channel/${videoDetails?.channel.id}`}>
-                <p>{videoDetails?.channel.name} </p>
+                <img
+                  src={videoDetails?.channel.profileImage}
+                  className='h-9 w-9 rounded-full cursor-pointer'
+                />
               </Link>
-              <p className='text-xs'>
-                {videoDetails?.channel.subscribers} subscribers
-              </p>
+              <div className='leading-4'>
+                <Link to={`/channel/${videoDetails?.channel.id}`}>
+                  <p>{videoDetails?.channel.name} </p>
+                </Link>
+                <p className='text-xs text-gray-400'>
+                  {videoDetails?.channel.subscribers} 0 subscribers
+                </p>
+              </div>
+
+            </div>
+
+            <div className="flex gap-2 items-center">
+              <Eye className="size-3 text-gray-400" />
+              <p className="text-xs">{videoDetails?.views}</p>
             </div>
           </div>
+
+          <div className="p-2 ring-[0.3px] ring-gray-600 rounded-lg my-4">Descricao</div>
         </div>
       </div>
     </>

@@ -5,21 +5,21 @@ import { useEffect, useState } from "react";
 import useAuthContext from "../AuthContext";
 
 function ChannelPage() {
-  const [channel, error, isLoading, fetchData] = useFetch();
+  const [channel, fetchData] = useFetch();
   const [isSubscribed, setIsSubscribed] = useState(null);
   const { user, setUser } = useAuthContext();
   const { id } = useParams();
 
   useEffect(() => {
     setIsSubscribed(user?.subscriptions?.some((sub) => sub.channelId === id));
-  }, [user]);
+  }, [user, id]);
 
   useEffect(() => {
     if (!id) return;
     fetchData(`http://localhost:3000/channel/${id}`, {
       credentials: "include",
     });
-  }, [id]);
+  }, [fetchData, id]);
 
   function handleSubscribe() {
     fetch(`http://localhost:3000/subscribe`, {
