@@ -7,9 +7,15 @@ import { Eye } from "lucide-react";
 
 function VideoPage() {
   const [videoDetails, setVideoDetails] = useState(null);
-  const [_, , , fetchData] = useFetch(null);
+  const [, , , fetchData] = useFetch(null);
+  const [expanded, setExpanded] = useState(false);
+
   const ref = useRef(0);
   const { id } = useParams();
+
+  const description = videoDetails?.description || "Nenhuma descrição";
+  const hasDescription = !!videoDetails?.description;
+  const isLong = description.length > 50;
 
   useEffect(() => {
     axios
@@ -32,18 +38,18 @@ function VideoPage() {
     <>
       <Nav />
       <div className='mt-4 flex justify-center'>
-        <div>
+        <div className="w-[40rem]">
           <video
             src={videoDetails?.url}
             className='h-96'
             controls
             onPlay={handleClick}
           ></video>
-          <div className='flex justify-between mb-2'>
+          <div className='flex justify-between my-2'>
             <h1 className='text-2xl'>{videoDetails?.title}</h1>
           </div>
 
-          <div className="flex justify-between">
+          <div className="flex justify-between px-2">
             <div className='flex gap-2'>
               <Link to={`/channel/${videoDetails?.channel.id}`}>
                 <img
@@ -68,7 +74,21 @@ function VideoPage() {
             </div>
           </div>
 
-          <div className="p-2 ring-[0.3px] ring-gray-600 rounded-lg my-4">Descricao</div>
+          <div className="p-2 ring-[0.3px] ring-gray-600 rounded-lg my-4">
+            <p className={`break-words ${expanded ? "" : "line-clamp-2"} ${hasDescription ? "" : "text-gray-400 text-sm"}`}>
+              {description}
+            </p>
+
+            {isLong && (
+              <button
+                onClick={() => setExpanded(!expanded)}
+                className="text-blue-400 text-lg mt-2 "
+              >
+                {expanded ? "ver menos" : "...mais"}
+              </button>
+            )}
+          </div>
+
         </div>
       </div>
     </>
