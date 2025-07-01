@@ -30,16 +30,16 @@ function VideoGrid({ videos }) {
             </Link>
             <div>
               <Link to={`video/${video.id}`}>
-                <h3 className='text-base cursor-pointer mb-1'>
+                <h3 className='text-base cursor-pointer'>
                   {video.title}
                 </h3>
               </Link>
               <Link to={`/channel/${video.channelId}`}>
-                <p className='text-xs text-gray-500 hover:text-gray-700 transition-all'>
+                <p className='text-xs text-gray-400 hover:text-gray-200 transition-all '>
                   {video.channel.name}
                 </p>
               </Link>
-              <p className='text-xs text-gray-500'>{video.views} views</p>
+              <p className='text-xs text-gray-400'>{video.views} views</p>
             </div>
           </div>
         </div>

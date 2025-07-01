@@ -13,7 +13,7 @@ function Nav() {
         <Search className="absolute top-2 left-2 text-gray-300 size-5" />
         <input
           type='text'
-          className='bg-stone-950 rounded-3xl w-96 py-2 outline-none px-4 pl-9 text-sm text-white'
+          className='bg-stone-950 rounded-3xl w-96 py-2 outline-none px-4 pl-9 text-sm text-white ring-[0.3px] ring-gray-600'
           placeholder="Search"
         />
       </div>
