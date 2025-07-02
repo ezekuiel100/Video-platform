@@ -38,10 +38,10 @@ function VideoPage() {
     <>
       <Nav />
       <div className='mt-4 flex justify-center'>
-        <div className="w-[40rem]">
+        <div className='h-full w-[40rem] px-4'>
           <video
             src={videoDetails?.url}
-            className='lg:h-full w-full max-h-96'
+            className='w-full max-h-96'
             controls
             onPlay={handleClick}
           ></video>
@@ -49,7 +49,7 @@ function VideoPage() {
             <h1 className='text-2xl'>{videoDetails?.title}</h1>
           </div>
 
-          <div className="flex justify-between px-2">
+          <div className='flex justify-between px-2'>
             <div className='flex gap-2'>
               <Link to={`/channel/${videoDetails?.channel.id}`}>
                 <img
