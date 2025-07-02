@@ -41,7 +41,7 @@ function VideoPage() {
         <div className="w-[40rem]">
           <video
             src={videoDetails?.url}
-            className='h-96'
+            className='lg:h-full w-full max-h-96'
             controls
             onPlay={handleClick}
           ></video>
