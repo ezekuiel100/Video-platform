@@ -6,7 +6,7 @@ function LoginForm({ onSubmit, loginError }) {
   return (
     <form
       onSubmit={onSubmit}
-      className='bg-zinc-800 w-[29rem] flex flex-col gap-2 rounded-xl p-6 px-8 border border-gray-300 drop-shadow-md'
+      className='bg-[#151b23] w-[29rem] flex flex-col gap-2 rounded-xl p-6 px-8 border border-gray-600'
     >
       <h1 className='text-4xl font-semibold my-4 text-center'>Login</h1>
 
