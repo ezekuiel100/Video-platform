@@ -4,6 +4,7 @@ import axios from "axios";
 import Nav from "../components/Nav";
 import useFetch from "../hooks/useFetch";
 import { Eye } from "lucide-react";
+import RecomendadVideos from "../components/RecommendedVideos";
 
 function VideoPage() {
   const [videoDetails, setVideoDetails] = useState(null);
@@ -90,6 +91,8 @@ function VideoPage() {
           </div>
 
         </div>
+
+        <RecomendadVideos />
       </div>
     </>
   );
