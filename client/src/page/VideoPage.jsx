@@ -3,7 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import Nav from "../components/Nav";
 import useFetch from "../hooks/useFetch";
-import { Eye } from "lucide-react";
+import { Eye, ThumbsUp, ThumbsDown } from "lucide-react";
 import RecomendadVideos from "../components/RecommendedVideos";
 
 function VideoPage() {
@@ -39,13 +39,14 @@ function VideoPage() {
     <>
       <Nav />
       <div className='mt-4 flex justify-center'>
-        <div className='h-full w-[40rem] px-4'>
+        <div className='h-full w-[55rem] px-4'>
           <video
             src={videoDetails?.url}
-            className='w-full max-h-96'
+            className='w-full'
             controls
             onPlay={handleClick}
           ></video>
+
           <div className='flex justify-between my-2'>
             <h1 className='text-2xl'>{videoDetails?.title}</h1>
           </div>
@@ -66,13 +67,27 @@ function VideoPage() {
                   {videoDetails?.channel.subscribers} 0 subscribers
                 </p>
               </div>
-
             </div>
 
-            <div className="flex gap-2 items-center">
-              <Eye className="size-3 text-gray-400" />
-              <p className="text-xs">{videoDetails?.views}</p>
+            <div className="flex gap-4">
+              <div className="flex gap-1 items-center">
+                <Eye className="size-4 text-gray-400" />
+                <p className="text-sm">{videoDetails?.views}</p>
+              </div>
+
+              <div className="w-44 rounded-full bg-gray-800 flex justify-around items-center gap-2 px-3 py-1">
+                <div className="flex gap-2 justify-around items-center">
+                  <ThumbsUp className="size-5 cursor-pointer" />
+                  10K
+                </div>
+                |
+                <div className="flex gap-2 justify-around items-center">
+                  <ThumbsDown className="size-5 cursor-pointer" />
+                  20
+                </div>
+              </div>
             </div>
+
           </div>
 
           <div className="p-2 ring-[0.3px] ring-gray-600 rounded-lg my-4">
