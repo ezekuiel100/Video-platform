@@ -3,8 +3,10 @@ import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import Nav from "../components/Nav";
 import useFetch from "../hooks/useFetch";
-import { Eye, ThumbsUp, ThumbsDown } from "lucide-react";
+import { Eye, ThumbsUp, ThumbsDown, Calendar } from "lucide-react";
 import RecomendadVideos from "../components/RecommendedVideos";
+import { format } from 'date-fns';
+
 
 function VideoPage() {
   const [videoDetails, setVideoDetails] = useState(null);
@@ -17,6 +19,9 @@ function VideoPage() {
   const description = videoDetails?.description || "Nenhuma descrição";
   const hasDescription = !!videoDetails?.description;
   const isLong = description.length > 50;
+
+  const data = new Date();
+  const formatada = format(data, "dd MMM yy").toLowerCase();
 
   useEffect(() => {
     axios
@@ -69,10 +74,15 @@ function VideoPage() {
               </div>
             </div>
 
-            <div className="flex gap-4">
+            <div className="flex gap-4 items-center">
               <div className="flex gap-1 items-center">
                 <Eye className="size-4 text-gray-400" />
                 <p className="text-sm">{videoDetails?.views}</p>
+              </div>
+
+              <div className="flex gap-1 items-center">
+                <Calendar className="size-4 text-gray-400" />
+                {formatada}
               </div>
 
               <div className="w-44 rounded-full bg-gray-800 flex justify-around items-center gap-2 px-3 py-1">
