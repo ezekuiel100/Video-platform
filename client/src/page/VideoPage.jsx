@@ -44,13 +44,15 @@ function VideoPage() {
     <>
       <Nav />
       <div className='mt-4 flex justify-center'>
-        <div className='h-full w-[55rem] px-4'>
-          <video
-            src={videoDetails?.url}
-            className='w-full'
-            controls
-            onPlay={handleClick}
-          ></video>
+        <div className='px-4 w-full max-w-[90rem]'>
+          <div className="aspect-video w-full  ">
+            <video
+              src={videoDetails?.url}
+              className='bg-black object-cover rounded-lg w-full h-full'
+              controls
+              onPlay={handleClick}
+            ></video>
+          </div >
 
           <div className='flex justify-between my-2'>
             <h1 className='text-2xl'>{videoDetails?.title}</h1>
@@ -115,10 +117,10 @@ function VideoPage() {
             )}
           </div>
 
-        </div>
+        </div >
 
         <RecomendadVideos />
-      </div>
+      </div >
     </>
   );
 }
