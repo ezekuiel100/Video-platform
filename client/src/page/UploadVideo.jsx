@@ -11,8 +11,8 @@ function UploadVideo() {
   return (
     <>
       <Nav />
-      <div className='h-screen flex justify-center items-center'>
-        <div className='grid grid-cols-2 w-[50rem] h-[30rem] bg-blue-200 rounded-3xl'>
+      <div className='text-black h-screen flex justify-center items-center'>
+        <div className='grid grid-cols-2 w-[50rem] h-[30rem] bg-blue-400 rounded-3xl'>
           <div className='flex flex-col items-center gap-20 px-8 py-12 '>
             <VideoForm title={title} setTitle={setTitle} />
             <SelectThumbnail ref={refImg} />

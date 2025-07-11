@@ -9,7 +9,7 @@ const VideoUpload = ({ title, refImg }) => {
 
   const { user } = useAuthContext();
 
-  function handleFile(e) {
+  function handleFile() {
     const file = ref.current.files[0];
     const videoUrl = URL.createObjectURL(file);
     setvideoFile(videoUrl);
@@ -35,9 +35,8 @@ const VideoUpload = ({ title, refImg }) => {
 
       <label
         htmlFor='file'
-        className={`flex flex-col justify-center items-center gap-4  ${
-          videoFile && "hidden"
-        }`}
+        className={`flex flex-col justify-center items-center gap-4  ${videoFile && "hidden"
+          }`}
       >
         <input
           ref={ref}
