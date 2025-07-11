@@ -1,4 +1,5 @@
 import axios from "axios";
+import uploadFileToPresignedUrl from "./uploadFileToPresignedUrl";
 
 export async function sendVideo(title, file, thumbnail, user) {
   if (!file) {
@@ -21,23 +22,14 @@ export async function sendVideo(title, file, thumbnail, user) {
       { withCredentials: true }
     );
 
-    const urlPresigned = res.data.videoUrl;
-    console.log(file.type)
+    const urlPresigned = res.data;
 
-    // Aguarde a resposta do fetch
-    const uploadResponse = await fetch(urlPresigned, {
-      method: "PUT",
-      headers: {
-        "Content-Type": file.type, // Tipo do arquivo
-      },
-      body: file, // O arquivo que você deseja enviar
-    });
+    uploadFileToPresignedUrl(urlPresigned.videoUrl, file)
 
-    if (!uploadResponse.ok) {
-      throw new Error("Erro ao enviar o vídeo");
+    if (urlPresigned.thumbUrl) {
+      uploadFileToPresignedUrl(urlPresigned.thumbUrl, thumbnail)
     }
 
-    console.log("Upload realizado com sucesso!");
   } catch (error) {
     console.log("Erro:", error);
   }
