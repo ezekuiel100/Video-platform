@@ -3,7 +3,7 @@ import {
     getSignedUrl,
 } from "@aws-sdk/s3-request-presigner";
 
-export default async function createPresignedUrl(Key, ContentType) {
+export default async function createPresignedUrl(bucketPath, ContentType) {
     if (
         !process.env.CLOUDFLARE_ENDPOINT ||
         !process.env.ACCESS_KEY ||
@@ -20,7 +20,9 @@ export default async function createPresignedUrl(Key, ContentType) {
         },
     });
 
-    const command = new PutObjectCommand({ Bucket: "video-platform", Key, ContentType });
+    const Key = ContentType.startsWith("video/") ? `video/${bucketPath}` : `thumbnail/${bucketPath}`
+
+    const command = new PutObjectCommand({ Bucket: "video-platform", Key: Key, ContentType });
 
     return getSignedUrl(client, command, { expiresIn: 3600 });
 }
