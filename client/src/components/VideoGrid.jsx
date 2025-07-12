@@ -10,6 +10,7 @@ function VideoGrid({ videos }) {
               <video
                 src={video.url}
                 poster={video?.thumbnail}
+                preload="none"
                 className='h-full w-full mb-1 cursor-pointer'
               />
             </Link>
