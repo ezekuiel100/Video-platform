@@ -6,17 +6,10 @@ function VideoGrid({ videos }) {
       {videos?.map((video, i) => (
         <div key={i}>
           <div className='relative mb-4 bg-gray-300 rounded-lg'>
-            {video.thumbnail && (
-              <Link to={`video/${video.id}`}>
-                <img
-                  src={video.thumbnail}
-                  className='absolute h-full w-full object-cover cursor-pointer'
-                />
-              </Link>
-            )}
             <Link to={`video/${video.id}`}>
               <video
                 src={video.url}
+                poster={video?.thumbnail}
                 className='h-full w-full mb-1 cursor-pointer'
               />
             </Link>
