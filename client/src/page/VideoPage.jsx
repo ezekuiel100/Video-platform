@@ -7,7 +7,6 @@ import { Eye, ThumbsUp, ThumbsDown, Calendar } from "lucide-react";
 import RecomendadVideos from "../components/RecommendedVideos";
 import { format } from 'date-fns';
 
-
 function VideoPage() {
   const [videoDetails, setVideoDetails] = useState(null);
   const [, , , fetchData] = useFetch(null);

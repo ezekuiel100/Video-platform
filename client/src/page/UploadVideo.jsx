@@ -2,7 +2,6 @@ import { useRef, useState } from "react";
 import Nav from "../components/Nav";
 import VideoUpload from "../components/VideoUpload";
 import SelectThumbnail from "../components/SelectThumbnail";
-import VideoForm from "../components/VideoForm";
 
 function UploadVideo() {
   const [title, setTitle] = useState("");
@@ -14,7 +13,17 @@ function UploadVideo() {
       <div className='text-black h-screen flex justify-center items-center'>
         <div className='grid grid-cols-2 w-[50rem] h-[30rem] bg-blue-400 rounded-3xl'>
           <div className='flex flex-col items-center gap-20 px-8 py-12 '>
-            <VideoForm title={title} setTitle={setTitle} />
+            <div className='w-full'>
+              <label htmlFor='title'>Title:</label>
+              <input
+                type='text'
+                name='title'
+                required
+                value={title}
+                className='w-full p-2 rounded-lg outline-none'
+                onChange={(e) => setTitle(e.target.value)}
+              />
+            </div>
             <SelectThumbnail ref={refImg} />
           </div>
 
