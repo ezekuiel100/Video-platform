@@ -1,13 +1,10 @@
 import { useRef, useState } from "react";
 import { CloudArrowUpIcon } from "@heroicons/react/24/outline";
-import useAuthContext from "../AuthContext";
 import { sendVideo } from "../utils/sendVideo";
 
 const VideoUpload = ({ title, refImg }) => {
   const ref = useRef(null);
   const [videoFile, setvideoFile] = useState(null);
-
-  const { user } = useAuthContext();
 
   function handleFile() {
     const file = ref.current.files[0];
@@ -18,7 +15,7 @@ const VideoUpload = ({ title, refImg }) => {
   function handlePublish() {
     const file = ref.current.files[0];
     const thumbnail = refImg?.current?.files[0];
-    sendVideo(title, file, thumbnail, user);
+    sendVideo(title, file, thumbnail);
   }
 
   return (

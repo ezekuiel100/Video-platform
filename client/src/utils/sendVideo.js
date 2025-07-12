@@ -1,7 +1,7 @@
 import axios from "axios";
 import uploadFileToPresignedUrl from "./uploadFileToPresignedUrl";
 
-export async function sendVideo(title, file, thumbnail, user) {
+export async function sendVideo(title, file, thumbnail) {
   if (!file) {
     console.log("Nenhum arquivo selecionado");
     return;
@@ -17,7 +17,6 @@ export async function sendVideo(title, file, thumbnail, user) {
         fileSize: file.size,
         thumbName: thumbnail?.name,
         thumbType: thumbnail?.type,
-        channel: user.channel.id,
       },
       { withCredentials: true }
     );
