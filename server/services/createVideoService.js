@@ -12,21 +12,21 @@ export default async function createVideoService(
 
     let thumbUrl
     const videoUrl = await createPresignedUrl(uniqueFileName, fileType);
-    console.log("URL Presigned gerada:", videoUrl)
+    // console.log("URL Presigned gerada:", videoUrl)
 
     if (thumbName) {
       uniqueThumbName = generateUniqueFileName(thumbName)
       thumbUrl = await createPresignedUrl(uniqueThumbName, thumbType);
     }
 
-    const baseUrl = `https://aa6766c4dc5f1a33005c52f5f1f5c306.r2.cloudflarestorage.com/video-platform`
+    const baseUrl = `https://pub-bb2774a25cae4bb28b9032cb5d338770.r2.dev`
 
     await prisma.video.create({
       data: {
         title,
         content: "",
         thumbnail: thumbName ? `${baseUrl}/thumbnail/${uniqueThumbName}` : "",
-        url: `${baseUrl}/videos/${uniqueFileName}`,
+        url: `${baseUrl}/video/${uniqueFileName}`,
         channelId: channel,
       },
     });
