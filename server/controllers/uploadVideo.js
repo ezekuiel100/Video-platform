@@ -1,7 +1,8 @@
 import createVideoService from "../services/createVideoService.js";
 
 export default async function uploadVideo(req, res) {
-  const { title, fileName, fileType, fileSize, thumbName, thumbType, channel } = req.body;
+  const { title, fileName, fileType, fileSize, thumbName, thumbType } = req.body;
+  const userId = req.user.userId
 
   if (!title && !fileName) {
     return res
@@ -10,7 +11,7 @@ export default async function uploadVideo(req, res) {
   }
 
   try {
-    const response = await createVideoService(title, fileName, fileType, thumbName, thumbType, channel);
+    const response = await createVideoService(title, fileName, fileType, thumbName, thumbType, userId);
 
     return res.status(201).send(response);
   } catch (error) {
