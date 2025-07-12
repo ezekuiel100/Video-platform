@@ -1,10 +1,10 @@
 import { PhotoIcon } from "@heroicons/react/24/outline";
 import { forwardRef, useState } from "react";
 
-const SelectThumbnail = forwardRef(({}, ref) => {
+const SelectThumbnail = forwardRef((props, ref) => {
   const [imageFile, setImageFile] = useState(null);
 
-  function handleImage(e) {
+  function handleImage() {
     const img = ref.current.files[0];
     const imgUrl = URL.createObjectURL(img);
     setImageFile(imgUrl);
@@ -32,6 +32,7 @@ const SelectThumbnail = forwardRef(({}, ref) => {
           onChange={handleImage}
           className='hidden'
         />
+
         <div className='bg-white border border-gray-200 h-40 w-72 rounded-sm grid place-content-center'>
           <PhotoIcon className='size-6' />
         </div>
@@ -39,5 +40,7 @@ const SelectThumbnail = forwardRef(({}, ref) => {
     </div>
   );
 });
+
+SelectThumbnail.displayName = "SelectThumbnail";
 
 export default SelectThumbnail;
