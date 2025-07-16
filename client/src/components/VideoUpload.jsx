@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import { CloudArrowUpIcon } from "@heroicons/react/24/outline";
 import { sendVideo } from "../utils/sendVideo";
+import generateThumbnail from "../utils/generateThumbnail";
 
 function VideoUpload({ title, refImg }) {
   const ref = useRef(null);
@@ -12,9 +13,10 @@ function VideoUpload({ title, refImg }) {
     setvideoFile(videoUrl);
   }
 
-  function handleUpload() {
+  async function handleUpload() {
     const file = ref.current.files[0];
-    const thumbnail = refImg?.current?.files[0];
+    const thumbnail = refImg?.current?.files[0] || await generateThumbnail(file)
+
     sendVideo(title, file, thumbnail);
   }
 

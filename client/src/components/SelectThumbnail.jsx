@@ -37,7 +37,7 @@ const SelectThumbnail = forwardRef((props, ref) => {
           <PhotoIcon className='size-6' />
         </div>
       </label>
-    </div>
+    </div >
   );
 });
 
