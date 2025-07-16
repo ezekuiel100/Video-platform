@@ -14,7 +14,6 @@ export async function sendVideo(title, file, thumbnail) {
         title,
         fileName: file.name,
         fileType: file.type,
-        fileSize: file.size,
         thumbName: thumbnail?.name,
         thumbType: thumbnail?.type,
       },

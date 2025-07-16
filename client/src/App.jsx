@@ -3,12 +3,12 @@ import { Route, BrowserRouter, Routes } from "react-router-dom";
 import LoginPage from "./page/LoginPage.jsx";
 import Home from "./page/Home.jsx";
 import RegisterPage from "./page/RegisterPage.jsx";
-import UploadVideo from "./page/UploadVideo.jsx";
 import VideoPage from "./page/VideoPage.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import CheckSession from "./components/CheckSession.jsx";
 import ChannelPage from "./page/ChannelPage.jsx";
 import CreateChannel from "./page/CreateChannel.jsx";
+import UploadVideoPage from "./page/UploadVideoPage.jsx";
 // import GuestRoute from "./components/GuestRoute.jsx";
 
 export const AuthContext = createContext({});
@@ -35,7 +35,7 @@ function App() {
             path='/sendvideo'
             element={
               <ProtectedRoute>
-                <UploadVideo />
+                <UploadVideoPage />
               </ProtectedRoute>
             }
           ></Route>
