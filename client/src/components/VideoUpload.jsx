@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import { CloudArrowUpIcon } from "@heroicons/react/24/outline";
 import { sendVideo } from "../utils/sendVideo";
 
-const VideoUpload = ({ title, refImg }) => {
+function VideoUpload({ title, refImg }) {
   const ref = useRef(null);
   const [videoFile, setvideoFile] = useState(null);
 
@@ -12,7 +12,7 @@ const VideoUpload = ({ title, refImg }) => {
     setvideoFile(videoUrl);
   }
 
-  function handlePublish() {
+  function handleUpload() {
     const file = ref.current.files[0];
     const thumbnail = refImg?.current?.files[0];
     sendVideo(title, file, thumbnail);
@@ -23,8 +23,8 @@ const VideoUpload = ({ title, refImg }) => {
       <div className={`${videoFile ? "grid place-items-center" : "hidden"}`}>
         <video src={videoFile} className={`w-80 h-60 `}></video>
         <button
-          onClick={handlePublish}
-          className='text-white bg-blue-500 rounded-xl w-64 '
+          onClick={handleUpload}
+          className='text-white bg-blue-500 rounded-full w-64 p-1'
         >
           Publicar
         </button>
