@@ -11,7 +11,7 @@ function VideoGrid({ videos }) {
                 src={video.url}
                 poster={video?.thumbnail}
                 preload="none"
-                className='h-full w-full mb-1 cursor-pointer'
+                className='h-full w-full max-h-44 mb-1 aspect-[16/9] cursor-pointer object-cover'
               />
             </Link>
           </div>
