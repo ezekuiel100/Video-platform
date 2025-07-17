@@ -45,10 +45,10 @@ function VideoPage() {
       <Nav />
       <div className='mt-4 flex justify-center'>
         <div className='px-4 w-full max-w-[90rem]'>
-          <div className="aspect-video w-full  ">
+          <div className="aspect-video w-full ">
             <video
               src={videoDetails?.url}
-              className='bg-black object-cover rounded-lg w-full h-full'
+              className='bg-black rounded-lg w-full h-full'
               controls
               onPlay={handleClick}
             ></video>
