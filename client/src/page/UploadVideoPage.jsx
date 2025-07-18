@@ -1,13 +1,9 @@
 import { useRef, useState } from "react";
 import Nav from "../components/Nav";
-import generateThumbnail from "../utils/generateThumbnail";
-import { sendVideo } from "../utils/sendVideo";
 import VideoUpload from "../components/VideoUpload";
 
 function UploadVideoPage() {
   const ref = useRef(null);
-  const refImg = useRef(null);
-  const [title, setTitle] = useState()
   const [videoFile, setvideoFile] = useState(null);
 
   function handleFile() {
@@ -16,18 +12,11 @@ function UploadVideoPage() {
     setvideoFile(videoUrl);
   }
 
-  async function handleUpload() {
-    const file = ref.current.files[0];
-    const thumbnail = refImg?.current?.files[0] || await generateThumbnail(file)
-
-    sendVideo(title, file, thumbnail);
-  }
-
   return (
     <div className="min-h-screen flex flex-col">
       <Nav />
 
-      {videoFile ? <VideoUpload videoFile={videoFile} /> :
+      {videoFile ? <VideoUpload videoFile={videoFile} file={ref.current.files[0]} /> :
         <div className="flex-1 text-black flex justify-center items-center">
           <div className="bg-white w-[28rem] h-[20rem] rounded-xl py-10 px-12 flex flex-col ">
             <h1 className="text-center text-2xl mb-3 text-blue-800 font-bold">Selecione o Vídeo</h1>

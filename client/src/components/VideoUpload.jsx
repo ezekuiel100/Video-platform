@@ -1,56 +1,49 @@
 import { useRef, useState } from "react";
-import { CloudArrowUpIcon } from "@heroicons/react/24/outline";
-import { sendVideo } from "../utils/sendVideo";
 import generateThumbnail from "../utils/generateThumbnail";
+import { sendVideo } from "../utils/sendVideo";
 
-function VideoUpload({ title, refImg }) {
-  const ref = useRef(null);
-  const [videoFile, setvideoFile] = useState(null);
-
-  function handleFile() {
-    const file = ref.current.files[0];
-    const videoUrl = URL.createObjectURL(file);
-    setvideoFile(videoUrl);
-  }
+function VideoUpload({ videoFile, file }) {
+  const [title, setTitle] = useState("")
+  const refImg = useRef(null);
 
   async function handleUpload() {
-    const file = ref.current.files[0];
     const thumbnail = refImg?.current?.files[0] || await generateThumbnail(file)
 
     sendVideo(title, file, thumbnail);
   }
 
   return (
-    <>
-      <div className={`${videoFile ? "grid place-items-center" : "hidden"}`}>
-        <video src={videoFile} className={`w-80 h-60 `}></video>
-        <button
-          onClick={handleUpload}
-          className='text-white bg-blue-500 rounded-full w-64 p-1'
-        >
-          Publicar
-        </button>
+    <div className="flex gap-6 m-auto">
+      <div className="bg-white min-h-96 p-6 rounded-xl flex flex-col gap-5">
+        <div className="flex flex-col gap-1">
+          <label htmlFor="" className="text-blue-600 font-semibold">Título</label>
+          <input onChange={(e) => setTitle(e.target.value)} type="text" name="" id="" className="border-2 rounded-md focus:ring-1 outline-none text-gray-500 p-1" placeholder="Ex: Minhas ferias incríveis" />
+        </div>
+
+        <div className="flex flex-col gap-1">
+          <label htmlFor="" className="text-blue-600 font-semibold">Descrição</label>
+          <textarea className="border-2 rounded-md focus:ring-1 outline-none text-gray-500 resize-none p-1" placeholder="Descreva seu vídeo..."></textarea>
+        </div>
+
+
+        <div>
+          <h3 className="text-blue-600 font-semibold mb-2">Escolha uma thumbnail</h3>
+          <div className="flex gap-2">
+            <div className="bg-gray-300 w-48 h-32 rounded-md"></div>
+            <div className="bg-gray-300 w-48 h-32 rounded-md"></div>
+          </div>
+        </div>
+
+        <button className="bg-blue-600 p-2 rounded-md" onClick={handleUpload}>Enviar vídeo</button>
       </div>
 
-      <label
-        htmlFor='file'
-        className={`flex flex-col justify-center items-center gap-4  ${videoFile && "hidden"
-          }`}
-      >
-        <input
-          ref={ref}
-          type='file'
-          name=''
-          id='file'
-          className='hidden '
-          accept='video/*'
-          onChange={handleFile}
-        />
-        <CloudArrowUpIcon className='size-52 cursor-pointer' />
-        <p className='text-2xl text-center'>Select video</p>
-      </label>
-    </>
+      <div className="bg-white rounded-xl max-h-72 w-96 p-8">
+        <h3 className="text-blue-600 font-semibold mb-1">Prévia do vídeo</h3>
+        <video src={videoFile} className="aspect-video w-full" controls />
+      </div>
+
+    </div>
   );
-};
+}
 
 export default VideoUpload;
