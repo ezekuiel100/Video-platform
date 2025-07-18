@@ -5,13 +5,13 @@ function VideoGrid({ videos }) {
     <div className='max-w-[80rem] grid grid-cols-[repeat(auto-fill,minmax(270px,1fr))] gap-4 gap-y-8 p-4 mx-auto'>
       {videos?.map((video, i) => (
         <div key={i}>
-          <div className='relative mb-4 bg-gray-300 rounded-lg'>
+          <div className='relative mb-4'>
             <Link to={`video/${video.id}`}>
               <video
                 src={video.url}
                 poster={video?.thumbnail}
                 preload="none"
-                className='h-full w-full max-h-44 mb-1 aspect-[16/9] cursor-pointer object-cover'
+                className='h-full w-full mb-1 aspect-[16/9] cursor-pointer object-cover bg-gray-300 rounded-lg'
               />
             </Link>
           </div>
